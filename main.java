@@ -11,6 +11,18 @@ public class main {
         System.out.print("Escull una opció");
 
         int opcion = scanner.nextInt();
+        switch(opcion){
+            case 1:
+                System.out.println("Llibres");
+            case 2:
+                System.out.println("Usuaris");
+            case 3:
+                System.out.println("Préstecs");
+            case 0:
+                System.out.println("Salir");
+            default:
+                System.out.println("Opció no vàlida");
+        }
         
     }
 }
