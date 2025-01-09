@@ -22,7 +22,7 @@ public class main {
 
                 //Afegir llibre
                 if (opc == 1){
-
+                    afegirLlibre(scanner);
                 }else if (opc ==2){
                     System.out.println("Modificar");
                 }else if(opc == 3){
@@ -42,4 +42,39 @@ public class main {
         }
         
     }
+    public static void afegirLlibre(Scanner scanner){
+            System.out.println("Escriu el nom del llibre: ");
+            int prueba = scanner.nextInt();          //ARREGLAR ESTO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            String nomllibre = scanner.nextLine();
+
+
+            //comprobar que el nom de l'autor no està buit, té 1 caràcter o conté números entre d'altres coses:
+            System.out.println("Escriu el nom de l'autor: ");
+            String autor = scanner.nextLine();
+
+            //bucle per comprobar que autor no sigui buit, 1 caràcter o tingui números.
+            while (autor.trim().isEmpty()||autor.length()<2||autor.matches(".*\\d.*")){
+                System.out.println("Insereix un nom vàlid");
+                System.out.print("Escriu el nom de l'autor: ");
+                autor = scanner.nextLine();
+            }
+
+
+
+            System.out.print("El llibre escollit està en préstec? s/n ");
+            String siono = scanner.nextLine().toLowerCase();
+
+            //si es que si, que prestec sigui true i si és que no, que préstec sigui false
+            if (siono == "s"){
+                boolean prestec = true;
+            }else if (siono == "n"){
+                boolean prestec = false;
+            }
+            //si no es posa un caràcter vàlid, que torni a demanar una opció
+            while (!siono.equals("s")&& !siono.equals("n ")){
+                System.out.print("Escull una opció vàlida: s (si) o n (no) ");
+                System.out.print("El llibre escollit està en préstec? s/n ");
+                siono = scanner.nextLine().toLowerCase();
+            }
+        }
 }
