@@ -1,0 +1,46 @@
+import java.util.Scanner;
+public class main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("gestió de biblioteca");
+        System.out.println("1. Llibres");
+        System.out.println("2. Usuaris");
+        System.out.println("3. Préstecs");
+        System.out.println("0. Sortir");
+        System.out.print("Escull una opció");
+
+        int opcion = scanner.nextInt();
+        switch(opcion){
+            case 1:
+                System.out.println("Llibres");
+            case 2:
+                System.out.println("Usuaris");
+                System.out.println("Gestió d'Usuaris\n1. Llistat d'usuaris\n2. Llistat d'usuaris amb préstecs actius\n3. Llistat d'usuaris amb préstecs fora de termini\n0. Tornar al menú principal");
+                System.out.println("Escull una opció: ");
+
+                int opc = scanner.nextInt();
+
+                switch(opc){
+                    case 1:
+                        System.out.println("Llistat d'usuaris");
+                        for (String )
+                    case 2:
+                        System.out.println("LListat d'usuaris amb préstecs actius");
+                    case 3:
+                        System.out.println("Llistat d'usuaris amb préstecs fora de termini");
+                    case 0:
+                        System.out.println("Tornar al menú principal");
+
+                }
+                scanner.close();
+            case 3:
+                System.out.println("Préstecs");
+            case 0:
+                System.out.println("Salir");
+            default:
+                System.out.println("Opció no vàlida");
+        }
+        
+    }
+}
