@@ -22,8 +22,6 @@ public class main {
 
                 //Afegir llibre
                 if (opc == 1){
-                    afegirLlibre(scanner);
-
 
                 }else if (opc ==2){
                     System.out.println("Modificar");
@@ -42,12 +40,6 @@ public class main {
                 System.out.println("Opció no vàlida");
             scanner.close();
         }
-
-            public static void afegirLlibre(Scanner scanner){
-            //añadir aqui autor, nombre y prestec o no prestec
-            }
-
-
         
     }
 }
