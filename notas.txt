@@ -1,0 +1,54 @@
+Menú Préstecs
+ 1. Afegir 
+ 2. Moficar
+ 3. Llistes
+ 4. Eliminar
+ 5. Tornar al menú principal
+Tria una opcio:
+
+AGREGAR
+ - Id_préstec
+ - id_llibre
+ - id_user
+ - data_prestec
+ - data_devolució
+
+MODIFICAR
+ - Id_préstec
+ - id_llibre
+ - id_user
+ - data_prestec
+ - data_devolució
+
+LISTAS PRESTAMOS
+ - Llistat de llibres en prestec
+ - Llistat d'usuaris amb préstecs actius
+ - Llistat d'usuaris amb préstecs fora de termini
+ - Llistat de préstecs
+ - Llistat de préstecs d'un usuari
+ - Llistat de préstecs actius
+ - Llistat de préstecs fora de termini
+
+
+
+
+        try {
+            String filePath = "./prestecs.json";
+            String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+            // Convertir el contingut JSON a una llista o mapa d'objectes
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Map<String, Object>>>() {}.getType();
+            List<Map<String, Object>> prestecs = gson.fromJson(content, listType);
+
+            // Iterar sobre els préstecs
+            for (Map<String, Object> prestec : prestecs) {
+                System.out.println("ID: " + prestec.get("id"));
+                System.out.println("Data Préstec: " + prestec.get("dataPrestec"));
+                System.out.println("Usuari ID: " + prestec.get("idUsuari"));
+                System.out.println("---------------------------");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
