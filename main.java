@@ -1,6 +1,5 @@
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Scanner;
+
 public class main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -87,6 +86,5 @@ public class main {
                 System.out.print("El llibre escollit està en préstec? s/n ");
                 siono = scanner.nextLine().toLowerCase();
             }
-            String content = new String(Files.readAllBytes(Paths.get("llibres.json")));
         }
 }
