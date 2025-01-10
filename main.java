@@ -1,3 +1,5 @@
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 public class main {
     public static void main(String[] args) {
@@ -10,15 +12,21 @@ public class main {
         System.out.println("0. Sortir");
         System.out.print("Escull una opció: ");
 
+
         //Elegir una opción del menú principal
 
-        int opcion = scanner.nextInt();
+        String opcionStr = scanner.nextLine();
+        int opcion = Integer.parseInt(opcionStr);
+        
         switch(opcion){
             case 1:
             //Opciones si se escoge el apartado llibres
                 System.out.println("Gestió de Llibres\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
                 System.out.print("Escull una opció:");
-                int opc = scanner.nextInt();
+                String opcStr = scanner.nextLine();
+                Integer opc = Integer.parseInt(opcStr);
+
+
 
                 //Afegir llibre
                 if (opc == 1){
@@ -29,7 +37,7 @@ public class main {
                     System.out.println("Eliminar");
                 }else if (opc == 4){
                     System.out.println("Llistar");
-                }
+                }return;
             case 2:
                 System.out.println("Usuaris");
             case 3:
@@ -38,36 +46,39 @@ public class main {
                 System.out.println("Salir");
             default:
                 System.out.println("Opció no vàlida");
-            scanner.close();
         }
         
+        scanner.close();
+
     }
     public static void afegirLlibre(Scanner scanner){
-            System.out.println("Escriu el nom del llibre: ");
-            int prueba = scanner.nextInt();          //ARREGLAR ESTO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            String nomllibre = scanner.nextLine();
 
+        //Escriure nom del llibre
+        System.out.print("Escriu el nom del llibre: ");
+        String nomllibre = scanner.nextLine();
+        System.out.println("El nom del llibre es " + nomllibre);
 
-            //comprobar que el nom de l'autor no està buit, té 1 caràcter o conté números entre d'altres coses:
-            System.out.println("Escriu el nom de l'autor: ");
-            String autor = scanner.nextLine();
+        //Escriure nom de l'autor
+        System.out.print("Escriu el nom de l'autor: ");
+        String autor = scanner.nextLine();
+        System.out.println("El nom de l'autor és " + autor);
 
             //bucle per comprobar que autor no sigui buit, 1 caràcter o tingui números.
+            
             while (autor.trim().isEmpty()||autor.length()<2||autor.matches(".*\\d.*")){
                 System.out.println("Insereix un nom vàlid");
                 System.out.print("Escriu el nom de l'autor: ");
                 autor = scanner.nextLine();
             }
 
-
-
             System.out.print("El llibre escollit està en préstec? s/n ");
             String siono = scanner.nextLine().toLowerCase();
 
             //si es que si, que prestec sigui true i si és que no, que préstec sigui false
-            if (siono == "s"){
+            if (siono.equals("s")){
                 boolean prestec = true;
-            }else if (siono == "n"){
+
+            }else if (siono.equals("n")){
                 boolean prestec = false;
             }
             //si no es posa un caràcter vàlid, que torni a demanar una opció
@@ -76,5 +87,6 @@ public class main {
                 System.out.print("El llibre escollit està en préstec? s/n ");
                 siono = scanner.nextLine().toLowerCase();
             }
+            String content = new String(Files.readAllBytes(Paths.get("llibres.json")));
         }
 }
