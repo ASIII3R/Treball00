@@ -24,7 +24,21 @@ public class main {
                 switch(opc){
                     case 1:
                         System.out.println("Llistat d'usuaris");
-                        for (String )
+
+                        String filePath = "./data/usuaris.json";
+                        String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+                        JSONArray usuariosArray = new JSONArray(contingut);
+                    
+                        for (int i = 0; i < usuariosArray.length(); i++) {
+                            JSONObject usuari = usuariosArray.getJSONObject(i);
+                            int id = usuari.getInt("id");
+                            String nom = usuari.getString("nom");
+                            String cognom = usuari.getString("cognom");
+                            int telefon = usuari.getInt("telefon");
+                            System.out.println("Usuario{id:" + id + ", nom:'" + nom + "', cognom:'" + cognom + "', telefon:'" + telefon + "'}");
+                            }
+
                     case 2:
                         System.out.println("LListat d'usuaris amb préstecs actius");
                     case 3:
@@ -38,6 +52,7 @@ public class main {
                 System.out.println("Préstecs");
             case 0:
                 System.out.println("Salir");
+                break;
             default:
                 System.out.println("Opció no vàlida");
         }
