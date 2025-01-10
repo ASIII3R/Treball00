@@ -1,6 +1,10 @@
 import java.util.Scanner;
 public class main {
     public static void main(String[] args) {
+
+        String filePath = "./data/usuaris.json";
+        String content = new String(Files.readAllBytes(Paths.get(filePath)));
+        
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("gestió de biblioteca");
@@ -24,9 +28,6 @@ public class main {
                 switch(opc){
                     case 1:
                         System.out.println("Llistat d'usuaris");
-
-                        String filePath = "./data/usuaris.json";
-                        String content = new String(Files.readAllBytes(Paths.get(filePath)));
 
                         JSONArray usuariosArray = new JSONArray(contingut);
                     
