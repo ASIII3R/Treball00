@@ -1,3 +1,4 @@
+import org.json.simple.JSONArray;
 import java.util.Scanner;
 
 public class main {
@@ -52,6 +53,8 @@ public class main {
     }
     public static void afegirLlibre(Scanner scanner){
 
+        JSONArray llibresjson = new JSONArray();
+
         //Escriure nom del llibre
         System.out.print("Escriu el nom del llibre: ");
         String nomllibre = scanner.nextLine();
@@ -81,10 +84,15 @@ public class main {
                 boolean prestec = false;
             }
             //si no es posa un caràcter vàlid, que torni a demanar una opció
-            while (!siono.equals("s")&& !siono.equals("n ")){
+            while (!siono.equals("s")&& !siono.equals("n")){
                 System.out.print("Escull una opció vàlida: s (si) o n (no) ");
                 System.out.print("El llibre escollit està en préstec? s/n ");
                 siono = scanner.nextLine().toLowerCase();
             }
+            jsonArray.put("nom",nomllibre);
+            jsonArray.put("autor",autor);
+            jsonArray.put("prestec",prestec);
+
+            System.out.println(llibresjson);
         }
 }
