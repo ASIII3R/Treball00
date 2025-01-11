@@ -1,7 +1,10 @@
-import org.json.simple.JSONArray;
+package com.biblioteca00;
 import java.util.Scanner;
 
-public class main {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         //print del menú
@@ -53,7 +56,7 @@ public class main {
     }
     public static void afegirLlibre(Scanner scanner){
 
-        JSONArray llibresjson = new JSONArray();
+        JSONObject llibresjson = new JSONObject();
 
         //Escriure nom del llibre
         System.out.print("Escriu el nom del llibre: ");
@@ -77,11 +80,12 @@ public class main {
             String siono = scanner.nextLine().toLowerCase();
 
             //si es que si, que prestec sigui true i si és que no, que préstec sigui false
+            boolean prestec = false;
             if (siono.equals("s")){
-                boolean prestec = true;
+                prestec = true;
 
             }else if (siono.equals("n")){
-                boolean prestec = false;
+                prestec = false;
             }
             //si no es posa un caràcter vàlid, que torni a demanar una opció
             while (!siono.equals("s")&& !siono.equals("n")){
@@ -89,10 +93,14 @@ public class main {
                 System.out.print("El llibre escollit està en préstec? s/n ");
                 siono = scanner.nextLine().toLowerCase();
             }
-            jsonArray.put("nom",nomllibre);
-            jsonArray.put("autor",autor);
-            jsonArray.put("prestec",prestec);
+        try{
+            llibresjson.put("nom",nomllibre);
+            llibresjson.put("autor",autor);
+            llibresjson.put("prestec",prestec);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        System.out.println(llibresjson);
 
-            System.out.println(llibresjson);
         }
 }
