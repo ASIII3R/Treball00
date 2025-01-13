@@ -1,4 +1,10 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class main {
     public static void main(String[] args) {
 
@@ -7,29 +13,29 @@ public class main {
         
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("gestió de biblioteca");
+        System.out.println("Gestió de biblioteca");
         System.out.println("1. Llibres");
         System.out.println("2. Usuaris");
         System.out.println("3. Préstecs");
         System.out.println("0. Sortir");
-        System.out.print("Escull una opció");
+        System.out.print("Escull una opció: ");
 
         int opcion = scanner.nextInt();
-        switch(opcion){
+        switch (opcion) {
             case 1:
                 System.out.println("Llibres");
+                break;
             case 2:
                 System.out.println("Usuaris");
                 System.out.println("Gestió d'Usuaris\n1. Llistat d'usuaris\n2. Llistat d'usuaris amb préstecs actius\n3. Llistat d'usuaris amb préstecs fora de termini\n0. Tornar al menú principal");
-                System.out.println("Escull una opció: ");
+                System.out.print("Escull una opció: ");
 
                 int opc = scanner.nextInt();
 
-                switch(opc){
+                switch (opc) {
                     case 1:
                         System.out.println("Llistat d'usuaris");
-
-                        JSONArray usuariosArray = new JSONArray(contingut);
+                        JSONArray usuariosArray = new JSONArray(content);
                     
                         for (int i = 0; i < usuariosArray.length(); i++) {
                             JSONObject usuari = usuariosArray.getJSONObject(i);
@@ -38,25 +44,29 @@ public class main {
                             String cognom = usuari.getString("cognom");
                             int telefon = usuari.getInt("telefon");
                             System.out.println("Usuario{id:" + id + ", nom:'" + nom + "', cognom:'" + cognom + "', telefon:'" + telefon + "'}");
-                            }
-
+                        }
+                        break;
                     case 2:
                         System.out.println("LListat d'usuaris amb préstecs actius");
+                        break;
                     case 3:
                         System.out.println("Llistat d'usuaris amb préstecs fora de termini");
+                        break;
                     case 0:
                         System.out.println("Tornar al menú principal");
-
+                        break;
                 }
-                scanner.close();
+                break;
             case 3:
                 System.out.println("Préstecs");
+                break;
             case 0:
-                System.out.println("Salir");
+                System.out.println("Sortir");
                 break;
             default:
                 System.out.println("Opció no vàlida");
         }
-        
+
+        scanner.close();
     }
 }
