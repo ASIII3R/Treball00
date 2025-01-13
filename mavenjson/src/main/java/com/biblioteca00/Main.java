@@ -21,11 +21,11 @@ public class Main {
 
         //Elegir una opción del menú principal
 
-        String opcionStr = scanner.nextLine();
-        int opcion = Integer.parseInt(opcionStr);
+        String opcion = scanner.nextLine().toLowerCase();
         
         switch(opcion){
-            case 1:
+            case "1":
+            case "llibres":
             //Opciones si se escoge el apartado llibres
                 System.out.println("Gestió de Llibres\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
                 System.out.print("Escull una opció:");
@@ -44,11 +44,14 @@ public class Main {
                 }else if (opc == 4){
                     System.out.println("Llistar");
                 }return;
-            case 2:
+            case "2":
+            case "usuaris":
                 System.out.println("Usuaris");
-            case 3:
+            case "3":
+            case "prestecs":
                 System.out.println("Préstecs");
-            case 0:
+            case "0":
+            case "sortir":
                 System.out.println("Salir");
             default:
                 System.out.println("Opció no vàlida");
