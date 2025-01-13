@@ -1,17 +1,32 @@
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Prestecs {
-        // Definir la clase Prestec
-        static class Prestec {
-            String idPrestec;
-            String idLlibre;
-            String idUser;
-            LocalDate fechaPrestec;
-            LocalDate fechaDevolucio;
+
+    // Definir la clase Prestec
+    static class Prestec {
+        String idPrestec;
+        String idLlibre;
+        String idUser;
+        LocalDate fechaPrestec;
+        LocalDate fechaDevolucio;
+
+        // Método para convertir el objeto a JSONObject
+        public JSONObject toJson() {
+            JSONObject json = new JSONObject();
+            json.put("idPrestec", idPrestec);
+            json.put("idLlibre", idLlibre);
+            json.put("idUser", idUser);
+            json.put("fechaPrestec", fechaPrestec.toString());  // Convertir LocalDate a String
+            json.put("fechaDevolucio", fechaDevolucio.toString());  // Convertir LocalDate a String
+            return json;
+        }
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -58,22 +73,25 @@ public class Prestecs {
                     String fechaDevolucioStr = sc.nextLine();
                     LocalDate data_devolucio = LocalDate.parse(fechaDevolucioStr);
 
-                    // Crear el objeto Prestec
-                    prestec prestec = new prestec();
+                    // Crear el objeto Prestec e inicializar directamente sus campos
+                    Prestec prestec = new Prestec();
                     prestec.idPrestec = id_prestec;
                     prestec.idLlibre = id_llibre;
                     prestec.idUser = id_user;
                     prestec.fechaPrestec = data_prestec;
                     prestec.fechaDevolucio = data_devolucio;
 
-                    // Usar Jackson para guardar el objeto en un archivo JSON
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    try {
-                        objectMapper.writeValue(new File("prestec.json"), prestec);
+                    // Convertir el objeto a JSON
+                    JSONObject prestecJson = prestec.toJson();
+
+                    // Guardar el JSON en un archivo
+                    try (FileWriter file = new FileWriter("prestec.json", true)) {
+                        file.write(prestecJson.toString(4));  // 4 es para que el JSON se escriba con indentación
                         System.out.println("El préstamo se ha guardado correctamente en prestec.json");
                     } catch (IOException e) {
                         System.out.println("Error al guardar el archivo JSON: " + e.getMessage());
                     }
+
                     break;
                 case 2:
                     System.out.println("2. Modificar");
