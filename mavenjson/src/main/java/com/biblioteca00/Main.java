@@ -1,6 +1,7 @@
 package com.biblioteca00;
 import java.util.Scanner;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,12 +94,14 @@ public class Main {
                 System.out.print("El llibre escollit està en préstec? s/n ");
                 siono = scanner.nextLine().toLowerCase();
             }
+        //Guardar el llibre afegit a l'arxiu llibres.json
         try{
             llibresjson.put("nom",nomllibre);
             llibresjson.put("autor",autor);
             llibresjson.put("prestec",prestec);
-        }catch (JSONException e){
-            e.printStackTrace();
+            Files.write(Paths.get("mavenjson/data/llibres.json"),llibresjson.toString(4).getBytes());
+        }catch (Exception e){
+            System.out.println("Error: "+e.getMessage());
         }
         System.out.println(llibresjson);
 
