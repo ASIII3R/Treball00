@@ -1,5 +1,14 @@
 {
-    "prestec": true,
-    "nom": "ajemploasd",
-    "autor": "asier pozo"
+    "llibres":[
+        {
+            "prestec": true,
+            "nom": "ajemploasd",
+            "autor": "asier pozo"
+        },
+        {
+            "prestec":false,
+            "nom": "literatura catalana vol4",
+            "autor": "maria garcia"
+        }
+    ]
 }

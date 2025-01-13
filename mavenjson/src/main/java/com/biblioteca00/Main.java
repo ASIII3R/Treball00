@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
@@ -37,7 +38,7 @@ public class Main {
                 if (opc == 1){
                     afegirLlibre(scanner);
                 }else if (opc ==2){
-                    System.out.println("Modificar");
+                    modificarLlibre(scanner);
                 }else if(opc == 3){
                     System.out.println("Eliminar");
                 }else if (opc == 4){
@@ -115,4 +116,32 @@ public class Main {
         System.out.println(llibresjson);
 
         }
+
+    public static void modificarLlibre(Scanner scanner){
+        //Insertar el nom del llibre que es vol modificar
+        System.out.print("Inserta el nom del llibre que vulguis modificar: ");
+        String nomBuscar = scanner.nextLine();
+
+
+        try {
+
+            String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
+            JSONObject objectLlibres = new JSONObject(contingut);
+            JSONArray llibresArray = new JSONArray("llibres");
+
+            boolean trobat = false;
+            for (int i =0;i<llibresArray.length();i++){
+                JSONObject llibre = llibresArray.getJSONObject(i);
+                if (llibre.getString("nom").equals(nomBuscar)){
+                    trobat = true;
+                    System.out.println("L'has trobat!");
+                    break;
+                }else{
+                    System.out.println("No l'has trobat");
+                }
+            }
+        } catch (Exception e) { 
+            System.out.println("Error: "+e.getMessage());//COMPROBAR PORQUÉ DA ERROR LO QUE DEBERIA ESTAR BIEN
+        }
+    }
 }
