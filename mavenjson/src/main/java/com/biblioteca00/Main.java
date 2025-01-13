@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         //print del menú
+        try{
         System.out.println("gestió de biblioteca");
         System.out.println("1. Llibres");
         System.out.println("2. Usuaris");
@@ -51,14 +52,19 @@ public class Main {
             default:
                 System.out.println("Opció no vàlida");
         }
-        
+    }   catch(Exception e){
+            System.out.println("Error: "+e.getMessage());
+    }   finally{
         scanner.close();
-
+    }
+        
     }
     public static void afegirLlibre(Scanner scanner){
 
         JSONObject llibresjson = new JSONObject();
 
+
+        try{
         //Escriure nom del llibre
         System.out.print("Escriu el nom del llibre: ");
         String nomllibre = scanner.nextLine();
@@ -94,13 +100,13 @@ public class Main {
                 System.out.print("El llibre escollit està en préstec? s/n ");
                 siono = scanner.nextLine().toLowerCase();
             }
-        //Guardar el llibre afegit a l'arxiu llibres.json
-        try{
+            //Guardar el llibre afegit a l'arxiu llibres.json
             llibresjson.put("nom",nomllibre);
             llibresjson.put("autor",autor);
             llibresjson.put("prestec",prestec);
             Files.write(Paths.get("mavenjson/data/llibres.json"),llibresjson.toString(4).getBytes());
-        }catch (Exception e){
+        
+        }   catch (Exception e){
             System.out.println("Error: "+e.getMessage());
         }
         System.out.println(llibresjson);
