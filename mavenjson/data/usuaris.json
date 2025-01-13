@@ -1,0 +1,14 @@
+[
+    {   
+        "id":"12345123A",
+        "nom":"Carlos",
+        "cognom":"Rodriguez",
+        "telefon":"666666666"
+    },
+    {
+        "id":"12345123A",
+        "nom":"Andrea",
+        "cognom":"Prieto",
+        "telefon":"555555555"
+    }
+]

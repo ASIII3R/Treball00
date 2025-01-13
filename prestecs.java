@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import java.util.Scanner;
+=======
+
+>>>>>>> main
 
 public class prestecs {
 
     public static void main(String[] args) {
+<<<<<<< HEAD
         Scanner sc = new Scanner(System.in);
 
         String opciones;
@@ -29,6 +34,11 @@ public class prestecs {
                        
 
         }
+=======
+        
+        
+        
+>>>>>>> main
 
 
     }
