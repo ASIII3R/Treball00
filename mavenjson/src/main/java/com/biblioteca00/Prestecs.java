@@ -23,7 +23,7 @@ public class Prestecs {
         LocalDate fechaPrestec;
         LocalDate fechaDevolucio;
 
-        // nicializar la lista de libros
+        // Inicializar la lista de libros
         public Prestec() {
             idLlibre = new ArrayList<>();
         }
@@ -40,17 +40,69 @@ public class Prestecs {
         }
     }
 
-
-    // Metodo de existencia del ID del prestamo
-    public static boolean idPrestecExist(String idPrestec) {
+    // Método de existencia del ID del préstamo
+    public static boolean idPrestecExist(String idPrestec, JSONArray prestecsArray) {
         for (int i = 0; i < prestecsArray.length(); i++) {
-            JSONObject prestec = prestecsArray.getJSONObject(i);
+            JSONObject prestec = prestecsArray.optJSONObject(i);
+            String existingId = prestec.optString("id_Prestec");
             if (existingId.equals(idPrestec)) {
                 return true;
             }
         }
         return false;
+    }
+    
+    // Verificar si un libro ya está prestado
+    public static boolean isLlibrePrestat(String idLlibre, JSONArray prestecsArray) {
+        for (int i = 0; i < prestecsArray.length(); i++) {
+            JSONObject prestec = prestecsArray.optJSONObject(i);
+            JSONArray llibres = prestec.optJSONArray("id_Llibre");
+            if (llibres != null) {
+                for (int j = 0; j < llibres.length(); j++) {
+                    if (llibres.optString(j).equals(idLlibre)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
+    // Contar el número de préstamos por usuario
+    public static int numPrestecsPerUsuari(String idUser, JSONArray prestecsArray) {
+        int count = 0;
+        for (int i = 0; i < prestecsArray.length(); i++) {
+            JSONObject prestec = prestecsArray.optJSONObject(i);
+            if (idUser.equals(prestec.optString("id_User"))) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Validar todas las condiciones de préstamo
+    public static boolean validarPrestec(String idPrestec, List<String> idLlibre, String idUser, LocalDate fechaPrestec, LocalDate fechaDevolucio, JSONArray prestecsArray) {
+        // Verificar si el ID del préstamo ya existe
+        if (idPrestecExist(idPrestec, prestecsArray)) {
+            System.out.println("Error: El ID del préstec ja existeix.");
+            return false;
+        }
+
+        // Verificar si los libros ya están prestados
+        for (String idLlibreItem : idLlibre) {
+            if (isLlibrePrestat(idLlibreItem, prestecsArray)) {
+                System.out.println("Error: El llibre " + idLlibreItem + " ja està prestat.");
+                return false;
+            }
+        }
+
+        // Verificar el número de préstamos por usuario
+        if (numPrestecsPerUsuari(idUser, prestecsArray) >= 4) {
+            System.out.println("Error: Un usuari no pot tenir més de 4 préstecs.");
+            return false;
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {
@@ -61,10 +113,10 @@ public class Prestecs {
         JSONArray prestecsArray = new JSONArray();
         try {
             // Verifica si el archivo JSON existe
-            File file = new File("mavenjson\\data\\prestecs.json");
+            File file = new File("mavenjson" + File.separator + "data" + File.separator + "prestecs.json");
             if (file.exists() && file.length() > 0) {
                 // Lee el contenido del archivo y lo convierte a JSONArray
-                String content = new String(Files.readAllBytes(Paths.get("mavenjson\\data\\prestecs.json")));
+                String content = new String(Files.readAllBytes(Paths.get("mavenjson" + File.separator + "data" + File.separator + "prestecs.json")));
                 prestecsArray = new JSONArray(content);
             }
         } catch (IOException | JSONException e) {
@@ -97,21 +149,14 @@ public class Prestecs {
                     // Captura de datos
                     System.out.print("Introdueix el ID del préstec: ");
                     String id_prestec = sc.nextLine();
-                    if (idPrestecExist(id_prestec)) {
-                        System.out.println("Error: El ID del préstec ja existeix.");
-                        return;
-                    }
 
-                    // Inicializamos el préstamo
-                    Prestec prestec = new Prestec();
-                    prestec.idPrestec = id_prestec;
-
-                    // Añadir múltiples libros
+                    // Captura de los libros
+                    List<String> idLlibres = new ArrayList<>();
                     boolean afegirMesLlibres = true;
                     while (afegirMesLlibres) {
                         System.out.print("Introdueix el ID del llibre: ");
                         String id_llibre = sc.nextLine();
-                        prestec.idLlibre.add(id_llibre);  // Añadir el ID del libro a la lista
+                        idLlibres.add(id_llibre);
 
                         System.out.print("Vols afegir un altre llibre? (s/n): ");
                         String resposta = sc.nextLine();
@@ -119,39 +164,36 @@ public class Prestecs {
                             afegirMesLlibres = false;
                         }
                     }
-                    // Verificar si los libros ya están prestados
-                    for (String idLlibre : prestec.idLlibre) {
-                        if (isLlibrePrestat(idLlibre)) {
-                            System.out.println("Error: El llibre " + idLlibre + " ja està prestat.");
-                            return;
-                        }
-                    }
 
                     System.out.print("Introdueix el ID de l'usuari: ");
                     String id_user = sc.nextLine();
-                    prestec.idUser = id_user;
-                    if (numPrestecsPerUsuari(id_user) >= 4) {
-                        System.out.println("Error: Un usuari no pot tenir més de 4 préstecs.");
-                        return;
+
+                    // Captura de las fechas
+                    LocalDate fechaPrestec = null;
+                    LocalDate fechaDevolucio = null;
+                    try {
+                        System.out.print("Introdueix la data del préstec (yyyy-mm-dd): ");
+                        fechaPrestec = LocalDate.parse(sc.nextLine());
+
+                        System.out.print("Introdueix la data de devolució (yyyy-mm-dd): ");
+                        fechaDevolucio = LocalDate.parse(sc.nextLine());
+                    } catch (Exception e) {
+                        System.out.println("Error: La data no és vàlida. Torna a intentar-ho.");
+                        continue;
                     }
 
-                    try {
-                        // Solicitar la fecha del préstamo
-                        System.out.print("Introdueix la data del préstec (yyyy-mm-dd): ");
-                        String fechaPrestecStr = sc.nextLine();
-                        LocalDate dataPrestec = LocalDate.parse(fechaPrestecStr);
-                        prestec.fechaPrestec = dataPrestec;
-                    
-                        // Solicitar la fecha de devolución
-                        System.out.print("Introdueix la data de devolució (yyyy-mm-dd): ");
-                        String fechaDevolucioStr = sc.nextLine();
-                        LocalDate dataDevolucio = LocalDate.parse(fechaDevolucioStr);
-                        prestec.fechaDevolucio = dataDevolucio;
-                    } catch (Exception e) {
-                        System.out.println("Error: Una o més dates no són vàlides. Torna a intentar-ho.");
-                        return;  // Si hay un error en la fecha, se detiene el proceso.
+                    // Validar condiciones
+                    if (!validarPrestec(id_prestec, idLlibres, id_user, fechaPrestec, fechaDevolucio, prestecsArray)) {
+                        break;
                     }
-                    
+
+                    // Inicializar el préstamo
+                    Prestec prestec = new Prestec();
+                    prestec.idPrestec = id_prestec;
+                    prestec.idLlibre = idLlibres;
+                    prestec.idUser = id_user;
+                    prestec.fechaPrestec = fechaPrestec;
+                    prestec.fechaDevolucio = fechaDevolucio;
 
                     // Convertir el objeto a JSON y manejar la excepción JSONException
                     try {
@@ -159,8 +201,8 @@ public class Prestecs {
                         prestecsArray.put(prestecJson); // Añadir el nuevo préstamo al array existente
 
                         // Guardar el JSON en un archivo
-                        try (FileWriter file = new FileWriter("mavenjson\\data\\prestecs.json")) {
-                            file.write(prestecsArray.toString(4));  // 4 es para que el JSON se escriba con los saltos de linea entre variables
+                        try (FileWriter file = new FileWriter("mavenjson" + File.separator + "data" + File.separator + "prestecs.json")) {
+                            file.write(prestecsArray.toString(4)); // Indentación de 4 espacios
                             System.out.println("El préstec s'ha guardat correctament en prestec.json");
                         } catch (IOException e) {
                             System.out.println("Error en guardar l'arxiu JSON: " + e.getMessage());
