@@ -1,12 +1,13 @@
-package com.biblioteca00;
+package com.biblioteca;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         //print del menú
@@ -55,12 +56,11 @@ public class main {
 
                 if (uopc == 1){
                     System.out.println("LListat d'usuaris");
+                    llistarUsuaris();
                 }else if (uopc ==2){
-                    System.out.println("Modificar");
+                    System.out.println("Llistat d'usuaris amb préstecs actius");
                 }else if(uopc == 3){
-                    System.out.println("Eliminar");
-                }else if (uopc == 4){
-                    System.out.println("Llistar");
+                    System.out.println("Llistat d'usuaris amb préstecs fora de termini");
                 }return;
 
             case "3":
@@ -124,5 +124,31 @@ public class main {
         }
         System.out.println(llibresjson);
 
+        }
+
+        public static void llistarUsuaris() {
+
+            try {
+                String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+    
+                System.out.println("Llistat d'Usuaris");
+    
+                JSONArray usuarisArray = new JSONArray(contingut);
+    
+                for (int i = 0; i < usuarisArray.length(); i++) {
+                    JSONObject usuari = usuarisArray.getJSONObject(i);
+                    int id = usuari.getInt("id");
+                    String nom = usuari.getString("nom");
+                    String cognom = usuari.getString("cognom");
+                    int telefon = usuari.getInt("telefon");
+    
+                    System.out.println("Usuario{id:" + id + ", nom:'" + nom + "', cognom:'" + cognom + "', telefon:'" + telefon + "'}");
+                }
+    
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+
+            
         }
 }
