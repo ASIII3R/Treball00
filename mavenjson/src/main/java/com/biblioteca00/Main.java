@@ -67,6 +67,10 @@ public class Main {
                             case"tornar":
                                 System.out.println("Aquí es tornarà");
                         }
+                    case"0":
+                    case"tornar":
+                    case"tornar al menú principal":
+                        System.out.println("aquí es tornarà al menú principal");
                     } 
             case "2":
             case "usuaris":
@@ -101,8 +105,12 @@ public class Main {
                             case"0":
                             case"tornar al menú de usuaris":
                             case"tornar":
-                                System.out.println("Aquí es tornarà");
+                                System.out.println("Aquí es tornarà al menú de gestió d'usuaris");
                         }
+                    case"0":
+                    case"tornar":
+                    case"tornar al menú principal":
+                    System.out.println("aquí es tornarà al menú principal");
                 }
 
             case "3":
@@ -138,14 +146,19 @@ public class Main {
                             case"0":
                             case"tornar al menú de usuaris":
                             case"tornar":
-                                System.out.println("Aquí es tornarà");
+                                System.out.println("Aquí es tornarà al menú de gestió de préstecs");
                 }
+                case"0":
+                case"tornar":
+                case"tornar al menú principal":
+                System.out.println("aquí es tornarà al menú principal");
+            }
             case "0":
             case "sortir":
                 System.out.println("Salir");
             default:
                 System.out.println("Opció no vàlida");
-            }
+            
         }
     }catch(Exception e){
         System.out.println("Error: "+e.getMessage());
