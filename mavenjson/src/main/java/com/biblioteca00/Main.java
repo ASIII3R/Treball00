@@ -29,12 +29,16 @@ public class Main {
             //Opciones si se escoge el apartado llibres
                 System.out.println("Gestió de Llibres\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
                 System.out.print("Escull una opció:");
-                String opcStr = scanner.nextLine();
-                Integer opc = Integer.parseInt(opcStr);
+                String opc = scanner.nextLine().toLowerCase();
+                
 
 
 
                 //Afegir llibre
+                switch(opc){
+                    case "1":
+                    case"
+                }
                 if (opc == 1){
                     afegirLlibre(scanner);
                 }else if (opc ==2){
@@ -120,7 +124,7 @@ public class Main {
     public static void modificarLlibre(Scanner scanner){
         //Insertar el nom del llibre que es vol modificar
         System.out.print("Inserta el nom del llibre que vulguis modificar: ");
-        String nomBuscar = scanner.nextLine();
+        String nomBuscar = scanner.nextLine().toLowerCase();
 
 
         try {
