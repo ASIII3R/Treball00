@@ -142,7 +142,7 @@ public class Main {
                     String cognom = usuari.getString("cognom");
                     int telefon = usuari.getInt("telefon");
     
-                    System.out.println("Usuario{id:" + id + ", nom:'" + nom + "', cognom:'" + cognom + "', telefon:'" + telefon + "'}");
+                    System.out.printf("%-4d %-15s %-15s %-10d%n", id, nom, cognom, telefon);
                 }
     
             } catch (Exception e) {
