@@ -1,15 +1,17 @@
 package com.biblioteca00;
-import java.util.Scanner;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.json.JSONException;
+import java.util.Random;
+import java.util.Scanner;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         //print del menú
-        try{
+    try{
         System.out.println("gestió de biblioteca");
         System.out.println("1. Llibres");
         System.out.println("2. Usuaris");
@@ -20,45 +22,138 @@ public class Main {
 
         //Elegir una opción del menú principal
 
-        String opcionStr = scanner.nextLine();
-        int opcion = Integer.parseInt(opcionStr);
+        String opcio = scanner.nextLine().toLowerCase();
         
-        switch(opcion){
-            case 1:
+        switch(opcio){
+            case "1":
+            case "llibres":
             //Opciones si se escoge el apartado llibres
                 System.out.println("Gestió de Llibres\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
                 System.out.print("Escull una opció:");
-                String opcStr = scanner.nextLine();
-                Integer opc = Integer.parseInt(opcStr);
-
-
+                String opc = scanner.nextLine().toLowerCase();
 
                 //Afegir llibre
-                if (opc == 1){
-                    afegirLlibre(scanner);
-                }else if (opc ==2){
-                    System.out.println("Modificar");
-                }else if(opc == 3){
-                    System.out.println("Eliminar");
-                }else if (opc == 4){
-                    System.out.println("Llistar");
-                }return;
-            case 2:
-                System.out.println("Usuaris");
-            case 3:
-                System.out.println("Préstecs");
-            case 0:
+                switch(opc){
+                    case "1":
+                    case "afegir":
+                        afegirLlibre(scanner);
+                    case "2":
+                    case "modificar":
+                        modificarLlibre(scanner);
+                    case"3":
+                    case"eliminar":
+                        System.out.println("Aquí anirà la funció per eliminar un llibre");
+                    case "4":
+                    case "llistar":
+                        System.out.println("Llistar llibres\n1. Tots\n2.En préstec\n3.Per autor\n4.Cercar títol\n0.Tornar al menú de llibres");
+                        System.out.print("Escull una opció:");
+                        String opc14 = scanner.nextLine().toLowerCase(); 
+                        
+                        switch (opc14){
+                            case "1":
+                            case "tots":
+                                System.out.println("Aquí anirà la funció per llistar tots els llibres");
+                            case"2":
+                            case"en préstec":
+                                System.out.println("Aquí anirà la funció per a llistar els llibres en préstec");
+                            case"3":
+                            case"per autor":
+                                System.out.println("Aquí anirà la funció per a llistar els llibres per autor");
+                            case"4":
+                            case"cercar títol":
+                                System.out.println("Aquí anirà la funció per cercar títol");
+                            case"0":
+                            case"tornar al menú de llibres":
+                            case"tornar":
+                                System.out.println("Aquí es tornarà");
+                        }
+                    } 
+            case "2":
+            case "usuaris":
+                System.out.println("Gestió de Usuaris\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
+                System.out.print("Escull una opció:");
+                String opc2 = scanner.nextLine().toLowerCase();
+                switch(opc2){
+                    case "1":
+                    case "afegir":
+                        System.out.println("aquí anirà la funció per afegir usuaris");
+                    case "2":
+                    case "modificar":
+                        System.out.println("Aquí anirà la funció per modificar usuaris");
+                    case"3":
+                    case"eliminar":
+                        System.out.println("Aquí anirà la funció per eliminar usuaris");
+                    case "4":
+                    case "llistar":
+                        System.out.println("Llistar usuaris\n1. Tots\n2.Amb préstecs actius\n3.Amb préstecs fora de termini\n0.Tornar al menú de usuaris");
+                        System.out.print("Escull una opció:");
+                        String opc24 = scanner.nextLine().toLowerCase(); 
+                        switch(opc24){
+                            case "1":
+                            case "tots":
+                                System.out.println("Aquí anirà la funció per llistar tots els usuaris");
+                            case"2":
+                            case"en préstec":
+                                System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs actius");
+                            case"3":
+                            case"per autor":
+                                System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs fora de termini");
+                            case"0":
+                            case"tornar al menú de usuaris":
+                            case"tornar":
+                                System.out.println("Aquí es tornarà");
+                        }
+                }
+
+            case "3":
+            case "prestecs":
+                System.out.println("Gestió de préstecs\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
+                System.out.print("Escull una opció:");
+                String opc3 = scanner.nextLine().toLowerCase();
+                switch(opc3){
+                    case "1":
+                    case "afegir":
+                        System.out.println("aquí anirà la funció per afegir préstecs");
+                    case "2":
+                    case "modificar":
+                        System.out.println("Aquí anirà la funció per modificar préstecs");
+                    case"3":
+                    case"eliminar":
+                        System.out.println("Aquí anirà la funció per eliminar préstecs");
+                    case "4":
+                    case "llistar":
+                        System.out.println("Llistar Préstecs\n1. Tots\n2.Llistar préstecs d'un usuari\n3.Llistar préstecs actius\n0.Tornar al menú de préstecs");
+                        System.out.print("Escull una opció:");
+                        String opc34 = scanner.nextLine().toLowerCase(); 
+                        switch(opc34){
+                            case "1":
+                            case "tots":
+                                System.out.println("Aquí anirà la funció per llistar tots els usuaris");
+                            case"2":
+                            case"llistar préstecs d'un usuari":
+                                System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs actius");
+                            case"3":
+                            case"llistar préstecs actius":
+                                System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs fora de termini");
+                            case"0":
+                            case"tornar al menú de usuaris":
+                            case"tornar":
+                                System.out.println("Aquí es tornarà");
+                }
+            case "0":
+            case "sortir":
                 System.out.println("Salir");
             default:
                 System.out.println("Opció no vàlida");
+            }
         }
-    }   catch(Exception e){
-            System.out.println("Error: "+e.getMessage());
-    }   finally{
+    }catch(Exception e){
+        System.out.println("Error: "+e.getMessage());
+    }finally{
         scanner.close();
     }
-        
-    }
+}       
+    
     public static void afegirLlibre(Scanner scanner){
 
         JSONObject llibresjson = new JSONObject();
@@ -83,27 +178,20 @@ public class Main {
                 autor = scanner.nextLine();
             }
 
-            System.out.print("El llibre escollit està en préstec? s/n ");
-            String siono = scanner.nextLine().toLowerCase();
+            //CREACIÓ DE L'ID
+            Random random = new Random();
+            String numerofinal = "";
+        
+            for (int i = 0; i<6;i++){
+                int numeroRandom = random.nextInt(10);
+                numerofinal += numeroRandom;
+        }
 
-            //si es que si, que prestec sigui true i si és que no, que préstec sigui false
-            boolean prestec = false;
-            if (siono.equals("s")){
-                prestec = true;
-
-            }else if (siono.equals("n")){
-                prestec = false;
-            }
-            //si no es posa un caràcter vàlid, que torni a demanar una opció
-            while (!siono.equals("s")&& !siono.equals("n")){
-                System.out.print("Escull una opció vàlida: s (si) o n (no) ");
-                System.out.print("El llibre escollit està en préstec? s/n ");
-                siono = scanner.nextLine().toLowerCase();
-            }
+        String id = numerofinal;
             //Guardar el llibre afegit a l'arxiu llibres.json
             llibresjson.put("nom",nomllibre);
             llibresjson.put("autor",autor);
-            llibresjson.put("prestec",prestec);
+            llibresjson.put("ID",id);
             Files.write(Paths.get("mavenjson/data/llibres.json"),llibresjson.toString(4).getBytes());
         
         }   catch (Exception e){
@@ -112,4 +200,32 @@ public class Main {
         System.out.println(llibresjson);
 
         }
+
+    public static void modificarLlibre(Scanner scanner){
+        //Insertar el nom del llibre que es vol modificar
+        System.out.print("Inserta el nom del llibre que vulguis modificar: ");
+        String nomBuscar = scanner.nextLine().toLowerCase();
+
+
+        try {
+
+            String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
+            JSONObject objectLlibres = new JSONObject(contingut);
+            JSONArray llibresArray = new JSONArray("llibres");
+
+            boolean trobat = false;
+            for (int i =0;i<llibresArray.length();i++){
+                JSONObject llibre = llibresArray.getJSONObject(i);
+                if (llibre.getString("nom").equals(nomBuscar)){
+                    trobat = true;
+                    System.out.println("L'has trobat!");
+                    break;
+                }else{
+                    System.out.println("No l'has trobat");
+                }
+            }
+        } catch (Exception e) { 
+            System.out.println("Error: "+e.getMessage());//COMPROBAR PORQUÉ DA ERROR LO QUE DEBERIA ESTAR BIEN
+        }
+    }
 }
