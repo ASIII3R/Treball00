@@ -1,6 +1,7 @@
 package com.biblioteca00;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -177,27 +178,20 @@ public class Main {
                 autor = scanner.nextLine();
             }
 
-            System.out.print("El llibre escollit està en préstec? s/n ");
-            String siono = scanner.nextLine().toLowerCase();
+            //CREACIÓ DE L'ID
+            Random random = new Random();
+            String numerofinal = "";
+        
+            for (int i = 0; i<6;i++){
+                int numeroRandom = random.nextInt(10);
+                numerofinal += numeroRandom;
+        }
 
-            //si es que si, que prestec sigui true i si és que no, que préstec sigui false
-            boolean prestec = false;
-            if (siono.equals("s")){
-                prestec = true;
-
-            }else if (siono.equals("n")){
-                prestec = false;
-            }
-            //si no es posa un caràcter vàlid, que torni a demanar una opció
-            while (!siono.equals("s")&& !siono.equals("n")){
-                System.out.print("Escull una opció vàlida: s (si) o n (no) ");
-                System.out.print("El llibre escollit està en préstec? s/n ");
-                siono = scanner.nextLine().toLowerCase();
-            }
+        String id = numerofinal;
             //Guardar el llibre afegit a l'arxiu llibres.json
             llibresjson.put("nom",nomllibre);
             llibresjson.put("autor",autor);
-            llibresjson.put("prestec",prestec);
+            llibresjson.put("ID",id);
             Files.write(Paths.get("mavenjson/data/llibres.json"),llibresjson.toString(4).getBytes());
         
         }   catch (Exception e){

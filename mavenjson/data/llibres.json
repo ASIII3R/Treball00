@@ -1,14 +1,5 @@
 {
-    "llibres":[
-        {
-            "prestec": true,
-            "nom": "ajemploasd",
-            "autor": "asier pozo"
-        },
-        {
-            "prestec":false,
-            "nom": "literatura catalana vol4",
-            "autor": "maria garcia"
-        }
-    ]
+    "ID": "409228",
+    "nom": "Habitos atómicos",
+    "autor": "James Clear"
 }
