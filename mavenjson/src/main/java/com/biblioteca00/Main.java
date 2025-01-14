@@ -22,9 +22,9 @@ public class Main {
 
         //Elegir una opción del menú principal
 
-        String opcion = scanner.nextLine().toLowerCase();
+        String opcio = scanner.nextLine().toLowerCase();
         
-        switch(opcion){
+        switch(opcio){
             case "1":
             case "llibres":
             //Opciones si se escoge el apartado llibres
