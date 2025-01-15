@@ -1,12 +1,5 @@
-[
-    {
-        "prestec":true,
-        "autor":"James Clear",
-        "nom":"Hábitor atómicos"
-    },
-    {
-        "prestec":false,
-        "autor":"Las 48 Leyes del poder",
-        "nom":"Robert Greene"
-    }
-]
+{
+    "ID": "105794",
+    "nom": "asda",
+    "autor": "jo mateix"
+}
