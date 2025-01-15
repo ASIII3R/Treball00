@@ -3,6 +3,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -144,7 +146,7 @@ public class main {
     
                     System.out.printf("%-4d %-15s %-15s %-10d%n", id, nom, cognom, telefon);
                 }
-    
+                
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
@@ -154,16 +156,51 @@ public class main {
 
         public static void llistarUsuarisPrestecsActius() {
 
-            
-
             try {
-                String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+                String contingutusuaris = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
 
-                System.out.println("Llistat d'Usuaris amb prestecs actius");
+                String contingutprestecs = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
 
-                JSONArray usuarisArray = new JSONArray(contingut);
+                Localdate data_actual = LocalDate.now();
+
+                System.out.println("Llistat d'Usuaris amb préstecs actius");
+
+                JSONArray usuarisArray = new JSONArray(contingutusuaris);
+                JSONArray prestecsArray = new JSONArray(contingutprestecs);
 
                 for (int i = 0; i < usuarisArray.length(); i++) {
+
+                    JSONObject usuariPrestecActiu = new JSONObject();
+
+                    int id = usuariPrestecActiu.getInt("id");
+                    String nom = usuariPrestecActiu.getString("nom");
+                    String cognom = usuariPrestecActiu.getString("cognom");
+                    int telefon = usuariPrestecActiu.getInt("telefon");
+    
+                    System.out.printf("%-4d %-15s %-15s %-10d%n", id, nom, cognom, telefon);
+
+                    boolean prestecActiu = false;
+
+                    for (int j = 0; j < prestecsArray.length(); j++) {
+
+                        JSONObject prestec = prestecsArray.getJSONObject;
+                        String idUsuariP = prestec.getString("id_user");
+                        Localdate dataDeDevolucio = LocalDate.parse(prestec.getString("data_devolució"))
+
+
+                        if (idUsuariP.equals(id) && dataDeDevolucio.isAfter(data_actual)) {
+                            prestecActiu = true;
+                            break;
+                        }
+                    }
+
+                    if (prestecActiu) {
+                        System.out.printf("%-4d %-15s %-15s %-10d%n", id, nom, cognom, telefon);
+
+                    }
+
+
+
 
 
 
