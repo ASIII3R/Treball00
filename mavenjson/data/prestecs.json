@@ -20,13 +20,27 @@
         "id_prestec": "sade455"
     },
     {
-        "idPrestec": "44",
-        "idUser": "44",
-        "idLlibre": [
+        "data_devolucio": "2020-03-05",
+        "id_llibre": [
             "44",
             "55"
         ],
-        "fechaDevolucio": "2020-03-05",
-        "fechaPrestec": "2020-02-05"
+        "data_prestec": "2020-02-05",
+        "id_user": "44",
+        "id_prestec": "44"
+    },
+    {
+        "id_Prestec": "sade456",
+        "data_Devolucio": "2025-03-04",
+        "id_User": "4564548F",
+        "id_Llibre": [
+            "ISB4545",
+            "ISB1212",
+            "ISB7878",
+            "ISB1141",
+            "ISB 656",
+            ""
+        ],
+        "data_Prestec": "2025-02-04"
     }
 ]
