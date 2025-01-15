@@ -7,7 +7,7 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         //print del menú
@@ -134,7 +134,7 @@ public class Main {
                 System.out.println("Llistat d'Usuaris");
     
                 JSONArray usuarisArray = new JSONArray(contingut);
-    
+                //Imprimir Llistat 
                 for (int i = 0; i < usuarisArray.length(); i++) {
                     JSONObject usuari = usuarisArray.getJSONObject(i);
                     int id = usuari.getInt("id");
@@ -149,6 +149,28 @@ public class Main {
                 System.out.println("Error: " + e.getMessage());
             }
 
+            
+        }
+
+        public static void llistarUsuarisPrestecsActius() {
+
+            
+
+            try {
+                String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+
+                System.out.println("Llistat d'Usuaris amb prestecs actius");
+
+                JSONArray usuarisArray = new JSONArray(contingut);
+
+                for (int i = 0; i < usuarisArray.length(); i++) {
+
+
+
+                }
+                
+            } catch (Exception e) {
+            }
             
         }
 }
