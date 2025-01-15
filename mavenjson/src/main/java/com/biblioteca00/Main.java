@@ -6,6 +6,13 @@ import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,11 +24,7 @@ public class Main {
         System.out.println("gestió de biblioteca\n1. Llibres\n2. Usuaris\n3. Préstecs\n0. Sortir");
         System.out.print("Escull una opció: ");
 
-
-        //Escollir una opció del menú principal
-
-        String opcio = scanner.nextLine().toLowerCase();
-        
+                // Escollir una opció del menú principal
         switch(opcio){
             case "1":
             case "llibres":
@@ -246,14 +249,14 @@ public class Main {
         String nomllibre = scanner.nextLine();
         System.out.println("El nom del llibre es " + nomllibre);
 
-        //Escriure nom de l'autor
-        System.out.print("Escriu el nom de l'autor: ");
-        String autor = scanner.nextLine();
-        System.out.println("El nom de l'autor és " + autor);
+            // Escriure nom de l'autor
+            System.out.print("Escriu el nom de l'autor: ");
+            String autor = scanner.nextLine();
+            System.out.println("El nom de l'autor és " + autor);
 
-            //bucle per comprobar que autor no sigui buit, 1 caràcter o tingui números.
-            
-            while (autor.trim().isEmpty()||autor.length()<2||autor.matches(".*\\d.*")){
+            // bucle per comprobar que autor no sigui buit, 1 caràcter o tingui números.
+
+            while (autor.trim().isEmpty() || autor.length() < 2 || autor.matches(".*\\d.*")) {
                 System.out.println("Insereix un nom vàlid");
                 System.out.print("Escriu el nom de l'autor: ");
                 autor = scanner.nextLine();
@@ -280,6 +283,32 @@ public class Main {
         }
         System.out.println(llibresjson);
 
+    }
+
+    public static void modificarLlibre(Scanner scanner) {
+        // Insertar el nom del llibre que es vol modificar
+        System.out.print("Inserta el nom del llibre que vulguis modificar: ");
+        String nomBuscar = scanner.nextLine().toLowerCase();
+
+        try {
+
+            String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
+            JSONObject objectLlibres = new JSONObject(contingut);
+            JSONArray llibresArray = new JSONArray("llibres");
+
+            boolean trobat = false;
+            for (int i = 0; i < llibresArray.length(); i++) {
+                JSONObject llibre = llibresArray.getJSONObject(i);
+                if (llibre.getString("nom").equals(nomBuscar)) {
+                    trobat = true;
+                    System.out.println("L'has trobat!");
+                    break;
+                } else {
+                    System.out.println("No l'has trobat");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());// COMPROBAR PORQUÉ DA ERROR LO QUE DEBERIA ESTAR BIEN
         }
 
     public static void modificarLlibre(Scanner scanner){
