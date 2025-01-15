@@ -163,26 +163,25 @@ public class Main {
 
     public static void menuLlistarUsuaris(Scanner scanner) {
         while (true) {
-            System.out.println(
-                    "Llistar usuaris\n1. Tots\n2.Amb préstecs actius\n3.Amb préstecs fora de termini\n0.Tornar al menú de usuaris");
+            System.out.println("Llistar usuaris\n1. Tots\n2.Amb préstecs actius\n3.Amb préstecs fora de termini\n0.Tornar al menú de usuaris");
             System.out.print("Escull una opció:");
-            String opc = scanner.nextLine().toLowerCase();
-            switch (opc) {
+            String opc = scanner.nextLine().toLowerCase(); 
+            switch(opc){
                 case "1":
                 case "tots":
                     System.out.println("Aquí anirà la funció per llistar tots els usuaris");
                     break;
-                case "2":
-                case "en préstec":
+                case"2":
+                case"en préstec":
                     System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs actius");
                     break;
-                case "3":
-                case "per autor":
+                case"3":
+                case"per autor":
                     System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs fora de termini");
                     break;
-                case "0":
-                case "tornar al menú de usuaris":
-                case "tornar":
+                case"0":
+                case"tornar al menú de usuaris":
+                case"tornar":
                     return;
             }
         }
@@ -191,8 +190,7 @@ public class Main {
     // Métodos de Gestión de Préstecs
     public static void menuGestióPréstecs(Scanner scanner) {
         while (true) {
-            System.out.println(
-                    "Gestió de Préstecs\n1. Afegir\n2. Modificar\n3. Eliminar\n4. Llistar\n0. Tornar al menú principal");
+            System.out.println("Gestió de Préstecs\n1. Afegir\n2. Modificar\n3. Eliminar\n4. Llistar\n0. Tornar al menú principal");
             System.out.print("Escull una opció: ");
             String opc = scanner.nextLine().toLowerCase();
 
@@ -283,7 +281,7 @@ public class Main {
 
             // Guardar los datos en el archivo JSON
             try (FileWriter fileWriter = new FileWriter("mavenjson/data/prestecs.json")) {
-                fileWriter.write(prestecsArray.toString(4));
+                fileWriter.write(prestecsArray.toString(4)); // Escribe con formato legible
                 System.out.println("Préstec afegit correctament!");
             }
 
@@ -292,48 +290,30 @@ public class Main {
         }
     }
 
+    // Comprobar si el ID de préstamo ya existe
     public static boolean idPrestecExist(JSONArray prestecsArray, String idPrestec) {
         for (int i = 0; i < prestecsArray.length(); i++) {
-            try {
-                JSONObject prestec = prestecsArray.getJSONObject(i);
-                // Modificar para utilizar camel case
-                if (prestec.has("idPrestec") && prestec.getString("idPrestec").equals(idPrestec)) {
-                    return true;
-                }
-            } catch (JSONException e) {
-                System.out.println("Error al acceder al préstamo en el índice " + i + ": " + e.getMessage());
+            JSONObject prestec = prestecsArray.getJSONObject(i);
+            if (prestec.getString("id_Prestec").equals(idPrestec)) {
+                return true;
             }
         }
         return false;
     }
 
-    public static boolean menuLlistarPréstecs() {
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println(
-                    "Llistar Préstecs\n1. Tots\n2.Llistar préstecs d'un usuari\n3.Llistar préstecs actius\n0.Tornar al menú de préstecs");
-            System.out.print("Escull una opció:");
-            String opc = scanner.nextLine().toLowerCase();
-            switch (opc) {
-                case "1":
-                case "tots":
-                    System.out.println("Aquí anirà la funció per llistar tots els usuaris");
-                    break;
-                case "2":
-                case "llistar préstecs d'un usuari":
-                    System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs actius");
-                    break;
-                case "3":
-                case "llistar préstecs actius":
-                    System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs fora de termini");
-                    break;
-                case "0":
-                case "tornar al menú de usuaris":
-                case "tornar":
-                    return true;
+    // Listar préstamos
+    public static void llistarPrestecs() {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+            JSONArray prestecsArray = new JSONArray(content);
+            System.out.println("Llistat de préstecs:");
+            for (int i = 0; i < prestecsArray.length(); i++) {
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                System.out.println(prestec.toString(4));  // Imprime con formato legible
             }
+        } catch (IOException | JSONException e) {
+            System.out.println("Error al llegir els préstecs: " + e.getMessage());
         }
-
     }
 
     // Clase Prestec
@@ -356,76 +336,46 @@ public class Main {
         }
     }
 
+    // Método para agregar un libro
     public static void afegirLlibre(Scanner scanner) {
-
-        JSONObject llibresjson = new JSONObject();
-
         try {
-            // Escriure nom del llibre
-            System.out.print("Escriu el nom del llibre: ");
-            String nomllibre = scanner.nextLine();
-            System.out.println("El nom del llibre es " + nomllibre);
+            // Leer los datos existentes
+            String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
+            JSONArray llibresArray = new JSONArray(content);
 
-            // Escriure nom de l'autor
-            System.out.print("Escriu el nom de l'autor: ");
+            // Recoger datos del nuevo libro
+            System.out.print("Escribe el nombre del libro: ");
+            String nomLlibre = scanner.nextLine();
+            System.out.print("Escribe el nombre del autor: ");
             String autor = scanner.nextLine();
-            System.out.println("El nom de l'autor és " + autor);
 
-            // bucle per comprobar que autor no sigui buit, 1 caràcter o tingui números.
-
+            // Validar el nombre del autor
             while (autor.trim().isEmpty() || autor.length() < 2 || autor.matches(".*\\d.*")) {
-                System.out.println("Insereix un nom vàlid");
-                System.out.print("Escriu el nom de l'autor: ");
+                System.out.println("Inserta un nombre válido");
+                System.out.print("Escribe el nombre del autor: ");
                 autor = scanner.nextLine();
             }
 
-            // CREACIÓ DE L'ID
+            // Generar un ID aleatorio para el libro
             Random random = new Random();
-            String numerofinal = "";
+            String id = String.format("%06d", random.nextInt(1000000));
 
-            for (int i = 0; i < 6; i++) {
-                int numeroRandom = random.nextInt(10);
-                numerofinal += numeroRandom;
+            // Crear el objeto JSON para el nuevo libro
+            JSONObject llibreJson = new JSONObject();
+            llibreJson.put("nom", nomLlibre);
+            llibreJson.put("autor", autor);
+            llibreJson.put("ID", id);
+
+            // Agregar el nuevo libro al array
+            llibresArray.put(llibreJson);
+
+            // Escribir de nuevo al archivo
+            try (FileWriter fileWriter = new FileWriter("mavenjson/data/llibres.json")) {
+                fileWriter.write(llibresArray.toString(4));
+                System.out.println("Llibre afegit correctament!");
             }
-
-            String id = numerofinal;
-            // Guardar el llibre afegit a l'arxiu llibres.json
-            llibresjson.put("nom", nomllibre);
-            llibresjson.put("autor", autor);
-            llibresjson.put("ID", id);
-            Files.write(Paths.get("mavenjson/data/llibres.json"), llibresjson.toString(4).getBytes());
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        System.out.println(llibresjson);
-
-    }
-
-    public static void modificarLlibre(Scanner scanner) {
-        // Insertar el nom del llibre que es vol modificar
-        System.out.print("Inserta el nom del llibre que vulguis modificar: ");
-        String nomBuscar = scanner.nextLine().toLowerCase();
-
-        try {
-
-            String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
-            JSONObject objectLlibres = new JSONObject(contingut);
-            JSONArray llibresArray = new JSONArray("llibres");
-
-            boolean trobat = false;
-            for (int i = 0; i < llibresArray.length(); i++) {
-                JSONObject llibre = llibresArray.getJSONObject(i);
-                if (llibre.getString("nom").equals(nomBuscar)) {
-                    trobat = true;
-                    System.out.println("L'has trobat!");
-                    break;
-                } else {
-                    System.out.println("No l'has trobat");
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());// COMPROBAR PORQUÉ DA ERROR LO QUE DEBERIA ESTAR BIEN
+        } catch (IOException | JSONException e) {
+            System.out.println("Error al agregar el libro: " + e.getMessage());
         }
     }
 }
