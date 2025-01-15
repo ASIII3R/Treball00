@@ -20,16 +20,6 @@
         "id_prestec": "sade455"
     },
     {
-        "data_devolucio": "2020-03-05",
-        "id_llibre": [
-            "44",
-            "55"
-        ],
-        "data_prestec": "2020-02-05",
-        "id_user": "44",
-        "id_prestec": "44"
-    },
-    {
         "id_Prestec": "sade456",
         "data_Devolucio": "2025-03-04",
         "id_User": "4564548F",
@@ -42,5 +32,24 @@
             ""
         ],
         "data_Prestec": "2025-02-04"
+    },
+    {
+        "id_Prestec": "sade457",
+        "data_Devolucio": "2025-03-25",
+        "id_User": "4564845L",
+        "id_Llibre": [
+            "ISB4549",
+            "ISB1212",
+            "ISB1616",
+            "ISB741"
+        ],
+        "data_Prestec": "2025-02-25"
+    },
+    {
+        "id_Prestec": "sade458",
+        "data_Devolucio": "2025-02-05",
+        "id_User": "46481425N",
+        "id_Llibre": ["ISB118"],
+        "data_Prestec": "2025-01-05"
     }
 ]
