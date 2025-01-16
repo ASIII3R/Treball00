@@ -5,7 +5,9 @@
             "ISB8888",
             "ISB8301"
         ],
-        "data_Prestec": "2024-12-15"
+        "data_Prestec": "2024-12-15",
+        "id_user": "4124548F",
+        "id_prestec": "sade454"
     },
     {
         "data_devolucio": "2025-02-22",
@@ -13,7 +15,9 @@
             "ISB7788",
             "ISB1329"
         ],
-        "data_Prestec": "2025-01-22"
+        "data_Prestec": "2025-01-22",
+        "id_user": "4512348F",
+        "id_prestec": "sade455"
     },
     {
         "data_devolucio": "2025-03-04",
