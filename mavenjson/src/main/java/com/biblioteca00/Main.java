@@ -1,20 +1,20 @@
 package com.biblioteca00;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 public class Main {
     public static void main(String[] args) {
@@ -149,7 +149,7 @@ public class Main {
                     break;
                 case "3":
                 case "eliminar":
-                    System.out.println("Aquí anirà la funció per eliminar un Usuari");
+                    eliminarUsuari(scanner);
                     break;
                 case "4":
                 case "llistar":
@@ -652,8 +652,28 @@ public class Main {
         }
         return false;
     }
-    
+    public static void eliminarUsuari(Scanner scanner){
+        //Llegir el arxiu json
+        try {
+            FileReader reader = new FileReader("mavenjson/data/usuaris.json");
+            JSONArray usuArray = new JSONArray(new JSONTokener(reader));
 
+            System.out.print("Introdueix el ID de l'usuari a eliminar: ");
+            String idEliminar = scanner.nextLine();
+            for (int i = 0; i<usuArray.length();i++){
+                JSONObject usuari = usuArray.getJSONObject(i);
+                if (usuari.getString("id").equals(idEliminar)){
+                    usuArray.remove(i);
+                    break;
+                }
+            }
+            System.out.println("No s'ha trobat l'id demanat\n");
+            FileWriter writer = new FileWriter("mavenjson/data/usuaris.json");
+            writer.write(usuArray.toString(4));
+            writer.close();
 
+        } catch (IOException | JSONException e) {
+                System.out.println("S'ha produït un error: " + e.getMessage());
+                e.printStackTrace();        }
+    }
 }
- 
