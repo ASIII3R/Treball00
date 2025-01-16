@@ -203,7 +203,7 @@ public class Main {
                     break;
                 case "2":
                 case "modificar":
-                    System.out.println("Aquí anirà la funció per modificar préstecs");
+                    modificarPrestec(scanner);
                     break;
                 case "3":
                 case "eliminar":
@@ -305,6 +305,98 @@ public class Main {
     
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public static void modificarPrestec(Scanner scanner){
+
+        //Demanar l'id a buscar, llegir el contingut i crear prestecsArray
+        try {
+            System.out.println("inserta l'id del préstec que vulguis modificar");
+            String idBuscar = scanner.nextLine().toLowerCase();
+            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+            JSONArray prestecsArray = new JSONArray(contenido);
+
+            boolean trobat = false;
+
+
+            //Recorrer prestecsArray i comprobar si id_prestec es igual a idBuscar
+            for (int i = 0; i<prestecsArray.length();i++){
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                if (prestec.getString("id_prestec").toLowerCase().equals(idBuscar)){
+                    trobat = true;
+                    System.out.println("Que vols cambiar?\n1)Data devolució\n2)ID Llibre\n3)Data préstec\n4)ID Usuari\n5)ID Préstec\n0Tornar");
+                    String opcio = scanner.nextLine().toLowerCase();
+                    switch(opcio){
+
+                        //Opció 1. demanar la data de devolució i fer un put per canviarla per la que hi ha
+                        case "data devolució":
+                        case "1":
+                        case"data devolucio":
+                            System.out.print("Inserta la nova data de devolució (yyyy-mm-dd): ");
+                            String novaDataDevolucio = scanner.nextLine();
+                            prestec.put("data_devolucio",novaDataDevolucio);
+                            Files.write(Paths.get("mavenjson/data/prestecs.json"),prestecsArray.toString(4).getBytes());
+                            break;
+                        
+                        //Opció 2. Demanar l'id del llibre, si existeix modificarlo per el que digui
+                        case "id llibre": //hacer que solamente se cambie uno de los dos IDs !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        case "2":
+                            JSONArray idLlibreArray = prestec.getJSONArray("id_llibre");
+                            System.out.print("Ids d'aquest llibre: ");
+                            for (int j = 0; j<idLlibreArray.length();j++){
+                                System.out.println((j+1)+")"+idLlibreArray.getString(j));
+                            }
+                            System.out.print("Inserta el número de l'ID que vulguis modificar: ");
+                            int llista = scanner.nextInt()-1;
+                            scanner.nextLine();
+                            if (llista >= 0 && llista < idLlibreArray.length()){
+                                System.out.print("Inserta el nou ID del llibre: ");
+                                String nouIDLlibre = scanner.nextLine();
+                                idLlibreArray.put(llista,nouIDLlibre);
+                                prestec.put("id_llibre",idLlibreArray);
+                                Files.write(Paths.get("mavenjson/data/prestecs.json"),prestecsArray.toString(4).getBytes());
+                                break;
+                            }else{
+                                System.out.println("ID del llibre no vàlid");
+                                break;
+                            }
+                        //Opció 3. Demanar la data de préstec i canviarla per la que hi ha
+                        case "data préstec":
+                        case "data prestec":
+                        case "3":
+                            System.out.print("Inserta la nova data de préstec (yyyy-mm-dd): ");
+                            String novaDataPrestec = scanner.nextLine();
+                            prestec.put("data_prestec",novaDataPrestec);
+                            Files.write(Paths.get("mavenjson/data/prestecs.json"),prestecsArray.toString(4).getBytes());
+                            break;
+                        
+                        //Opció 4. Demanar el nou id de usuari. Com només hi ha un, canviarlo per el nou
+                        case "id usuari":
+                        case "4":
+                            System.out.print("Inserta el nou id de usuari: ");
+                            String nouIdUser = scanner.nextLine();
+                            prestec.put("id_user",nouIdUser);
+                            Files.write(Paths.get("mavenjson/data/prestecs.json"),prestecsArray.toString(4).getBytes());
+                            break;
+                        
+                        //Opció 5. Demenar el nou id de préstec. Com només hi ha un, canviarlo per el nou
+                        case "id préstec":
+                        case "id prestec":
+                        case "5":
+                            System.out.print("Inserta el nou id de préstec: ");
+                            String nouIdPrestec = scanner.nextLine();
+                            prestec.put("id_prestec",nouIdPrestec);
+                            Files.write(Paths.get("mavenjson/data/prestecs.json"),prestecsArray.toString(4).getBytes());
+                            break;
+                        case "tornar":
+                        case "0":
+                            return;
+                        }
+                }
+            }
+        }catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
         }
     }
     

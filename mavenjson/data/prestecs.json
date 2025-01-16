@@ -1,62 +1,51 @@
 [
     {
-        "data_Devolucio": "2025-01-15",
-        "id_Prestec": "sade454",
-        "id_User": "12334236A",
-        "id_Llibre": [
-            "ISB4578",
+        "data_devolucio": "2025-01-19",
+        "id_llibre": [
+            "ISB8888",
             "ISB8301"
         ],
         "data_Prestec": "2024-12-15"
     },
     {
-        "data_Devolucio": "2025-02-22",
-        "id_Prestec": "sade455",
-        "id_User": "98765434F",
-        "id_Llibre": [
-            "ISB7561",
+        "data_devolucio": "2025-02-22",
+        "id_llibre": [
+            "ISB7788",
             "ISB1329"
         ],
         "data_Prestec": "2025-01-22"
     },
     {
-        "id_Prestec": "sade456",
-        "data_Devolucio": "2025-03-04",
-        "id_User": "4564548F",
-        "id_Llibre": [
-            "ISB4545",
+        "data_devolucio": "2025-03-04",
+        "id_llibre": [
+            "ISB1010",
             "ISB1212",
             "ISB7878",
             "ISB1141",
             "ISB 656",
             ""
         ],
-        "data_Prestec": "2025-02-04"
+        "data_prestec": "2025-02-04",
+        "id_user": "4564548F",
+        "id_prestec": "sade456"
     },
     {
-        "id_Prestec": "sade457",
-        "data_Devolucio": "2025-03-25",
-        "id_User": "4564845L",
-        "id_Llibre": [
+        "data_devolucio": "2025-03-25",
+        "id_llibre": [
             "ISB4549",
             "ISB1212",
             "ISB1616",
             "ISB741"
         ],
-        "data_Prestec": "2025-02-25"
+        "data_prestec": "2025-02-25",
+        "id_user": "4564845L",
+        "id_prestec": "sade457"
     },
     {
-        "id_Prestec": "sade458",
-        "data_Devolucio": "2025-02-05",
-        "id_User": "46481425N",
-        "id_Llibre": ["ISB118"],
-        "data_Prestec": "2025-01-05"
-    },
-    {
-        "id_Prestec": "sade4444",
-        "data_Devolucio": "2025-03-02",
-        "id_User": "4648547L",
-        "id_Llibre": ["ISB45454"],
-        "data_Prestec": "2025-02-02"
+        "data_devolucio": "2025-02-05",
+        "id_llibre": ["ISB118"],
+        "data_prestec": "2025-01-05",
+        "id_user": "46481425N",
+        "id_prestec": "sade458"
     }
 ]
