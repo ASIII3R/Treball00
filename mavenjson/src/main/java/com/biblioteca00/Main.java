@@ -1,7 +1,6 @@
 package com.biblioteca00;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
@@ -12,8 +11,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -136,7 +133,7 @@ public class Main {
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
 
-            // Afegir llibre
+            // Users
             switch (opc) {
                 case "1":
                 case "afegir":
@@ -268,20 +265,35 @@ public class Main {
             System.out.print("Introdueix la data de devolució (yyyy-mm-dd): ");
             String fechaDevolucioStr = scanner.nextLine();
             LocalDate fechaDevolucio = LocalDate.parse(fechaDevolucioStr);
+
+
     
-            // Crear el préstec
-            Prestec prestec = new Prestec();
-            prestec.idPrestec = idPrestec;
-            prestec.idLlibre.add(idLlibre);
-            prestec.idUser = idUser;
-            prestec.fechaPrestec = fechaPrestec;
-            prestec.fechaDevolucio = fechaDevolucio;
+            // Crear un JSONObject directamente en el método
+            JSONObject prestecJson = new JSONObject();
+            prestecJson.put("id_Prestec", idPrestec);
+            prestecJson.put("id_Llibre", new JSONArray().put(idLlibre)); // Usamos JSONArray para manejar múltiples libros
+            prestecJson.put("id_User", idUser);
+            prestecJson.put("data_Prestec", fechaPrestec.toString());
+            prestecJson.put("data_Devolucio", fechaDevolucio.toString());
+
+            // Verificar si los préstamos tienen la clave "id_User" ignorando mayúsculas/minúsculas
+            for (int i = 0; i < prestecsArray.length(); i++) {
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+
+                // Comprobar si el JSON tiene la clave "id_User" (sin importar mayúsculas/minúsculas)
+                if (prestec.has("id_user") || prestec.has("id_User")) {
+                    String idUserKey = prestec.has("id_user") ? "id_user" : "id_User";  // Usamos la clave correcta
+                    String idUserValue = prestec.getString(idUserKey);
+                    System.out.println("ID de usuario: " + idUserValue);
+                } else {
+                    System.out.println("El préstamo " + i + " no tiene la clave 'id_User'.");
+                }
+            }
     
-            // Convertir el préstec a JSONobject i afegir-lo a la llista
-            JSONObject prestecJson = prestec.toJson();
+            // Agregar el nuevo préstamo a la lista de préstamos
             prestecsArray.put(prestecJson);
     
-            // Guardar els préstecs al fitxer
+            // Guardar los préstamos al archivo JSON
             try (FileWriter fileWriter = new FileWriter("mavenjson/data/prestecs.json")) {
                 fileWriter.write(prestecsArray.toString(4));
                 System.out.println("Préstec afegit correctament!");
@@ -374,26 +386,6 @@ public class Main {
             }
         } catch (IOException | JSONException e) {
             System.out.println("Error al llegir els préstecs: " + e.getMessage());
-        }
-    }
-
-    // Clase Prestec
-    static class Prestec {
-        String idPrestec;
-        List<String> idLlibre = new ArrayList<>();
-        String idUser;
-        LocalDate fechaPrestec;
-        LocalDate fechaDevolucio;
-
-        // Método para convertir el objeto Prestec a JSON
-        public JSONObject toJson() throws JSONException {
-            JSONObject json = new JSONObject();
-            json.put("id_Prestec", idPrestec);
-            json.put("id_Llibre", new JSONArray(idLlibre));
-            json.put("id_User", idUser);
-            json.put("data_Prestec", fechaPrestec.toString());
-            json.put("data_Devolucio", fechaDevolucio.toString());
-            return json;
         }
     }
 
