@@ -407,7 +407,7 @@ public class Main {
         try {
             // Leer los datos existentes
             String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
-            JSONArray llibresArray = new JSONArray(content);
+            JSONObject llibresObj = new JSONObject(content);
 
             // Recoger datos del nuevo libro
             System.out.print("Escribe el nombre del libro: ");
@@ -432,8 +432,12 @@ public class Main {
             llibreJson.put("autor", autor);
             llibreJson.put("ID", id);
 
+            //Añadir el nou llibre al JSONObject amb una clau
+            int novaKey = llibresObj.length()+1;
+            llibresObj.put(String.valueOf(novaKey),llibreJson);
+
             // Agregar el nuevo libro al array
-            llibresArray.put(llibreJson);
+            Files.write(Paths.get("mavenjson/data/llibres.json"),llibresObj.toString(4).getBytes());
         }catch (Exception e) { 
             System.out.println("Error: "+e.getMessage());}
         }
@@ -465,14 +469,14 @@ public class Main {
                             case"1":
                                 System.out.println("Inserta el nou nom de l'autor:");
                                 String nouAutor = scanner.nextLine();
-                                llibre.put("autor",nouAutor); //cambiar este
+                                llibre.put("autor",nouAutor);
                                 Files.write(Paths.get("mavenjson/data/llibres.json"),objJson.toString(4).getBytes());
                                 break;
                             case "nom":
                             case"2":
                                 System.out.println("Inserta el nou nom del llibre:");
                                 String nouLlibre = scanner.nextLine();
-                                ((JSONObject)valor).put("nom",nouLlibre); //o cambiar este
+                                ((JSONObject)valor).put("nom",nouLlibre);
                                 Files.write(Paths.get("mavenjson/data/llibres.json"),objJson.toString(4).getBytes());
                                 break;
                             case"tornar":
@@ -480,13 +484,11 @@ public class Main {
                                 return;    
                     }
                 }
-                }if(!trobat){
-                    System.out.println("No s'ha trobat "+nomBuscar);
                 }
-
             }
-            System.out.println(objJson.keys());            
-            
+            if(!trobat){
+                System.out.println("No s'ha trobat "+nomBuscar);
+            }            
         } catch (Exception e) { 
             System.out.println("Error: "+e.getMessage());
         }
