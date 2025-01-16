@@ -1,5 +1,12 @@
-{"1": {
-    "ID": "692994",
-    "nom": "geronimo stilton",
-    "autor": "ratol�"
-}}
+{
+    "1": {
+        "ID": "692994",
+        "nom": "llibre de python",
+        "autor": "ratol�"
+    },
+    "2": {
+        "ID": "626589",
+        "nom": "llibre de java",
+        "autor": "asier pozo"
+    }
+}
