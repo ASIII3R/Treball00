@@ -210,4 +210,18 @@ public class main {
             }
             
         }
+        public static void modificarUsuaris(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            String idModificar = scanner.nextLine();
+
+            try {
+
+
+                
+            } catch (Exception e) {
+            }
+
+
+            
+        }
 }
