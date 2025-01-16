@@ -203,7 +203,7 @@ public class Main {
                     break;
                 case "2":
                 case "modificar":
-                    System.out.println("Aquí anirà la funció per modificar préstecs");
+                    modificarPrestec(scanner);
                     break;
                 case "3":
                 case "eliminar":
@@ -290,6 +290,53 @@ public class Main {
     
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public static void modificarPrestec(Scanner scanner){
+        try {
+            System.out.println("inserta l'id del préstec que vulguis modificar");
+            String idBuscar = scanner.nextLine().toLowerCase();
+            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+            JSONArray prestecsArray = new JSONArray(contenido);
+
+            boolean trobat = false;
+            for (int i = 0; i<prestecsArray.length();i++){
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                if (prestec.getString("id_prestec").toLowerCase().equals(idBuscar)){
+                    trobat = true;
+                    System.out.println("Que vols cambiar?\n1)Data devolució\n2)ID Llibre\n3)Data préstec\n4)ID Usuari\n5)ID Préstec\n0Tornar");
+                    String opcio = scanner.nextLine().toLowerCase();
+                    switch(opcio){
+                        case "data devolució":
+                        case "1":
+                        case"data devolucio":
+                            System.out.print("Inserta la nova data de devolució (yyyy-mm-dd): ");
+                            String novaDataDevolucio = scanner.nextLine();
+                            prestec.put("data_devolucio",novaDataDevolucio);
+                            Files.write(Paths.get("mavenjson/data/prestecs.json"),prestecsArray.toString(4).getBytes());
+                        case "id llibre":
+                        case "2":
+                            System.out.print("Modificació del ID del llibre");
+                        case "data préstec":
+                        case "data prestec":
+                        case "3":
+                            System.out.print("modificar la data del préstec");
+                        case "id usuari":
+                        case "4":
+                            System.out.print("Modificar l'id de l'usuari");
+                        case "id préstec":
+                        case "id prestec":
+                        case "5":
+                            System.out.print("Modificar l'id del préstec");
+                        case "tornar":
+                        case "0":
+                            return;
+                        }
+                }
+            }
+        }catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
         }
     }
     
