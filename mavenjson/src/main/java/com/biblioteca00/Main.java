@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
@@ -116,14 +117,32 @@ public class Main {
 
             System.out.println("Introduieix el nom del llibre que vols eliminar: ");
 
-            String llibreEliminar = scanner.nextLine();
+            String llibreEliminar = scanner.nextLine().toLowerCase();
 
-            
-
-            for (int i = 0; i < 10; i++) {
+            try {
+                String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
                 
-            }
+                JSONArray llibresArray = new JSONArray(contingut);
 
+                boolean eliminat = false;
+                for (int i =0;i<llibresArray.length();i++){
+                    JSONObject llibre = llibresArray.getJSONObject(i);
+                    if (llibre.getString("nom").equals(llibreEliminar)){
+                        llibresArray.remove(i);
+                        eliminat = true;
+                        break;
+                    }else{
+                        System.out.println("Nom incorrecte del llibre o no existeix");
+                    }
+                }
+                if (eliminat) {
+                    Files.write(Paths.get("mavenjson/data/llibres.json"), llibresArray.toString().getBytes());
+                    System.out.println("El llibre " + llibreEliminar + " ha sigut eliminat.");
+                }
+            } catch (Exception e) { 
+                System.out.println("Error: "+e.getMessage());
+            }
+        
 
 
 
