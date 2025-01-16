@@ -40,7 +40,7 @@ public class Main {
                 }else if (opc ==2){
                     System.out.println("Modificar");
                 }else if(opc == 3){
-                    System.out.println("Eliminar");
+                    eliminarLLibres(args);;
                 }else if (opc == 4){
                     System.out.println("Llistar");
                 }return;
@@ -108,5 +108,29 @@ public class Main {
         }
         System.out.println(llibresjson);
 
+        }
+
+        public static void eliminarLLibres(String[] args) {
+
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Introduieix el nom del llibre que vols eliminar: ");
+
+            String llibreEliminar = scanner.nextLine();
+
+            
+
+            for (int i = 0; i < 10; i++) {
+                
+            }
+
+
+
+
+
+
+
+            
+            
         }
 }
