@@ -667,6 +667,7 @@ public class Main {
                     break;
                 }
             }
+            System.out.println("No s'ha trobat l'id demanat\n");
             FileWriter writer = new FileWriter("mavenjson/data/usuaris.json");
             writer.write(usuArray.toString(4));
             writer.close();
