@@ -1,5 +1,12 @@
 {
-    "ID": "105794",
-    "nom": "asda",
-    "autor": "jo mateix"
+    "1": {
+        "ID": "692994",
+        "nom": "llibre de python",
+        "autor": "ratol�"
+    },
+    "2": {
+        "ID": "626589",
+        "nom": "llibre de java",
+        "autor": "asier pozo"
+    }
 }

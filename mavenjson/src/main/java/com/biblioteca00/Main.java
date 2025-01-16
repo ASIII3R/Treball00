@@ -1,16 +1,20 @@
 package com.biblioteca00;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Random;
-import java.util.Scanner;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Main {
     public static void main(String[] args) {
@@ -394,7 +398,7 @@ public class Main {
         try {
             // Leer los datos existentes
             String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
-            JSONArray llibresArray = new JSONArray(content);
+            JSONObject llibresObj = new JSONObject(content);
 
             // Recoger datos del nuevo libro
             System.out.print("Escribe el nombre del libro: ");
@@ -419,16 +423,65 @@ public class Main {
             llibreJson.put("autor", autor);
             llibreJson.put("ID", id);
 
-            // Agregar el nuevo libro al array
-            llibresArray.put(llibreJson);
+            //Añadir el nou llibre al JSONObject amb una clau
+            int novaKey = llibresObj.length()+1;
+            llibresObj.put(String.valueOf(novaKey),llibreJson);
 
-            // Escribir de nuevo al archivo
-            try (FileWriter fileWriter = new FileWriter("mavenjson/data/llibres.json")) {
-                fileWriter.write(llibresArray.toString(4));
-                System.out.println("Llibre afegit correctament!");
+            // Agregar el nuevo libro al array
+            Files.write(Paths.get("mavenjson/data/llibres.json"),llibresObj.toString(4).getBytes());
+        }catch (Exception e) { 
+            System.out.println("Error: "+e.getMessage());}
+        }
+
+    public static void modificarLlibre(Scanner scanner){
+        //Insertar el nom del llibre que es vol modificar
+        try {
+            System.out.print("Inserta el nom del llibre que vulguis modificar: ");
+            String nomBuscar = scanner.nextLine().toLowerCase();
+            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json"))); //Llegir llibres.json
+            JSONObject objJson = new JSONObject(contenido);
+
+            //AGAFAR LES CLAUS I ITERARLES
+            Iterator <String> keys = objJson.keys();
+            boolean trobat = false;
+            while (keys.hasNext()){
+                String key = keys.next();
+                Object valor = objJson.get(key);
+
+                //Si valor està al JSONObject:
+                if (valor instanceof JSONObject){
+                    JSONObject llibre = (JSONObject)valor;
+                    if (llibre.getString("nom").toLowerCase().equals(nomBuscar)){
+                        trobat = true;
+                        System.out.print("Que vols cambiar?\n1)Autor\n2)Nom\n0)Tornar\nOpció:");
+                        String opcio = scanner.nextLine().toLowerCase();
+                        switch (opcio){
+                            case"autor":
+                            case"1":
+                                System.out.println("Inserta el nou nom de l'autor:");
+                                String nouAutor = scanner.nextLine();
+                                llibre.put("autor",nouAutor);
+                                Files.write(Paths.get("mavenjson/data/llibres.json"),objJson.toString(4).getBytes());
+                                break;
+                            case "nom":
+                            case"2":
+                                System.out.println("Inserta el nou nom del llibre:");
+                                String nouLlibre = scanner.nextLine();
+                                ((JSONObject)valor).put("nom",nouLlibre);
+                                Files.write(Paths.get("mavenjson/data/llibres.json"),objJson.toString(4).getBytes());
+                                break;
+                            case"tornar":
+                            case"0":
+                                return;    
+                    }
+                }
+                }
             }
-        } catch (IOException | JSONException e) {
-            System.out.println("Error al agregar el libro: " + e.getMessage());
+            if(!trobat){
+                System.out.println("No s'ha trobat "+nomBuscar);
+            }            
+        } catch (Exception e) { 
+            System.out.println("Error: "+e.getMessage());
         }
     }
 
