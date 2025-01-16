@@ -1,6 +1,7 @@
 package com.biblioteca00;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
@@ -79,7 +80,7 @@ public class Main {
                     break;
                 case "2":
                 case "modificar":
-                    modificarLlibre(scanner);
+                    System.out.println("Aquí anirà la funció per modificar un llibre");
                     break;
                 case "3":
                 case "eliminar":
@@ -139,7 +140,7 @@ public class Main {
             switch (opc) {
                 case "1":
                 case "afegir":
-                    System.out.println("Aquí anirà la funció per afegir usuaris");
+                    afegirUsuari(scanner);
                     break;
                 case "2":
                 case "modificar":
@@ -276,7 +277,7 @@ public class Main {
             prestec.fechaPrestec = fechaPrestec;
             prestec.fechaDevolucio = fechaDevolucio;
     
-            // Convertir el préstec a JSON i afegir-lo a la llista
+            // Convertir el préstec a JSONobject i afegir-lo a la llista
             JSONObject prestecJson = prestec.toJson();
             prestecsArray.put(prestecJson);
     
@@ -319,7 +320,6 @@ public class Main {
         return false;
     }
     
-
     public static int comprovarPrestecsActius(String idUser) {
         int count = 0;
         try {
@@ -346,7 +346,6 @@ public class Main {
         return count;
     }
       
-
     // Comprobar si el ID de préstamo ya existe
     public static boolean idPrestecExist(JSONArray prestecsArray, String idPrestec) {
         for (int i = 0; i < prestecsArray.length(); i++) {
@@ -363,9 +362,7 @@ public class Main {
         return false;
     }
     
-    
-
-    // Listar préstamos
+    // Listar préstamos en el JSON
     public static void llistarPrestecs() {
         try {
             String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
@@ -442,4 +439,84 @@ public class Main {
             System.out.println("Error al agregar el libro: " + e.getMessage());
         }
     }
+
+    public static void afegirUsuari(Scanner scanner) {
+        JSONArray usuArray = new JSONArray();
+        File file = new File("mavenjson/data/usuaris.json");
+
+        try {
+            if (file.exists() && file.length() > 0) {
+                String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+                usuArray = new JSONArray(content);
+            }
+
+            System.out.print("Introdueix el teu DNI: ");
+            String id = scanner.nextLine();
+
+            if (idExiste(usuArray, id)) {
+                System.out.println("Error: El DNI del user ja existeix.");
+                return;
+            }
+
+            System.out.print("Introdueix el teu Nom: ");
+            String nom = scanner.nextLine();
+
+            System.out.print("Introdueix el teu Cognom: ");
+            String cognom = scanner.nextLine();
+
+            System.out.print("Introdueix el teu numero de telefon: ");
+            String telefon = scanner.nextLine();
+
+            if (telefonValid(telefon)) {
+                System.out.println("Telèfon valid.");
+            } else {
+                System.out.println("Telèfon invalid. Ha de ser nùmeric y amb 9 dígits.");
+                return;
+            }
+
+            JSONObject newUser = new JSONObject();
+            newUser.put("id", id);
+            newUser.put("nom", nom);
+            newUser.put("cognom", cognom);
+            newUser.put("telefon", telefon);
+
+            usuArray.put(newUser);
+
+            // Escrivim l'array actualitzat al fitxer
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(usuArray.toString(4));
+            }
+
+            System.out.println("Usuari afegit amb èxit.");
+
+        } catch (IOException | JSONException e) {
+            System.out.println("S'ha produït un error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // comprovar telefono
+    public static boolean telefonValid(String telefon) {
+    return telefon.matches("\\d{9}");
+    }
+
+    // Comprovar que el dni no existe (id)
+    public static boolean idExiste(JSONArray usuArray, String id) {
+        for (int i = 0; i < usuArray.length(); i++) {
+            try {
+                JSONObject user = usuArray.getJSONObject(i);
+                if (user.getString("id").equals(id)) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                // Gestionem l'error, si la clau "DNI" no existeix
+                System.out.println("Error accedint a l'usuari: " + e.getMessage());
+            }
+        }
+        return false;
+    }
+    
+
+
 }
+ 
