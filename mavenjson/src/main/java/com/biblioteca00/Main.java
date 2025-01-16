@@ -1,10 +1,10 @@
 package com.biblioteca00;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
@@ -284,27 +284,53 @@ public class Main {
 
     public static void modificarLlibre(Scanner scanner){
         //Insertar el nom del llibre que es vol modificar
-        System.out.print("Inserta el nom del llibre que vulguis modificar: ");
-        String nomBuscar = scanner.nextLine().toLowerCase();
-
-
         try {
+            System.out.print("Inserta el nom del llibre que vulguis modificar: ");
+            String nomBuscar = scanner.nextLine().toLowerCase();
+            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json"))); //Llegir llibres.json
+            JSONObject objJson = new JSONObject(contenido);
 
-            String contingut = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
-            JSONObject objectLlibres = new JSONObject(contingut);
-            JSONArray llibresArray = new JSONArray("llibres");
-
+            //AGAFAR LES CLAUS I ITERARLES
+            Iterator <String> keys = objJson.keys();
             boolean trobat = false;
-            for (int i =0;i<llibresArray.length();i++){
-                JSONObject llibre = llibresArray.getJSONObject(i);
-                if (llibre.getString("nom").equals(nomBuscar)){
-                    trobat = true;
-                    System.out.println("L'has trobat!");
-                    break;
-                }else{
-                    System.out.println("No l'has trobat");
+            while (keys.hasNext()){
+                String key = keys.next();
+                Object valor = objJson.get(key);
+
+                //Si valor està al JSONObject:
+                if (valor instanceof JSONObject){
+                    JSONObject llibre = (JSONObject)valor;
+                    if (llibre.getString("nom").toLowerCase().equals(nomBuscar)){
+                        trobat = true;
+                        System.out.print("Que vols cambiar?\n1)Autor\n2)Nom\n0)Tornar\nOpció:");
+                        String opcio = scanner.nextLine().toLowerCase();
+                        switch (opcio){
+                            case"autor":
+                            case"1":
+                                System.out.println("Inserta el nou nom de l'autor:");
+                                String nouAutor = scanner.nextLine();
+                                llibre.put("autor",nouAutor); //cambiar este
+                                Files.write(Paths.get("mavenjson/data/llibres.json"),objJson.toString(4).getBytes());
+                                break;
+                            case "nom":
+                            case"2":
+                                System.out.println("Inserta el nou nom del llibre:");
+                                String nouLlibre = scanner.nextLine();
+                                ((JSONObject)valor).put("nom",nouLlibre); //o cambiar este
+                                Files.write(Paths.get("mavenjson/data/llibres.json"),objJson.toString(4).getBytes());
+                                break;
+                            case"tornar":
+                            case"0":
+                                return;    
+                    }
                 }
+                }if(!trobat){
+                    System.out.println("No s'ha trobat "+nomBuscar);
+                }
+
             }
+            System.out.println(objJson.keys());            
+            
         } catch (Exception e) { 
             System.out.println("Error: "+e.getMessage());//COMPROBAR PORQUÉ DA ERROR LO QUE DEBERIA ESTAR BIEN
         }
