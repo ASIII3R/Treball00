@@ -215,6 +215,18 @@ public class main {
             String idModificar = scanner.nextLine();
 
             try {
+                String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+
+                JSONArray usuarisArray = new JSONArray(contenido);
+
+                for (int i = 0; i<usuarisArray.length();i++){
+                JSONObject usuari = usuarisArray.getJSONObject(i);
+                if (usuari.getString("id").toLowerCase().equals(idModificar)){
+
+                    
+                }
+            }
+
 
 
                 
