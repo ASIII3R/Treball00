@@ -179,7 +179,7 @@ public class Main {
                     break;
                 case "2":
                 case "en préstec":
-                    System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs actius");
+                    llistarUsuarisPrestecsActius();
                     break;
                 case "3":
                 case "per autor":
@@ -220,6 +220,54 @@ public class Main {
                 String cognom = usuari.getString("cognom");
 
                 System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al leer el archivo JSON: " + e.getMessage());
+        }
+    }
+
+    public static void llistarUsuarisPrestecsActius() {
+        String usuarisFilePath = "mavenjson/data/usuaris.json";
+        String prestecsFilePath = "mavenjson/data/prestecs.json";
+
+        try (FileReader leer = new FileReader(usuarisFilePath);
+            FileReader prestecsLeer = new FileReader(prestecsFilePath)) {
+            ;
+
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+            while ((i = leer.read()) != -1) {
+                jsoncontenido.append((char) i);
+            }
+            StringBuilder prestecsJsonContenido = new StringBuilder();
+            while((i=prestecsLeer.read())!=-1){
+                prestecsJsonContenido.append((char)i);
+            }
+
+            JSONArray usuaris = new JSONArray(jsoncontenido.toString());
+            JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
+
+            System.out.println("\n----------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS -----------------");
+            System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
+            System.out.println("-------------------------------------------------------------");
+
+            for (int j=0; j<usuaris.length();j++){
+                JSONObject usuari = usuaris.getJSONObject(j);
+
+                String telefon = usuari.getString("telefon");
+                String id = usuari.getString("id");
+                String nom = usuari.getString("nom");
+                String cognom = usuari.getString("cognom");
+
+                for (int k=0;k<prestecs.length();k++){
+                    JSONObject prestec = prestecs.getJSONObject(k);
+                    if (prestec.getBoolean("actiu")&&prestec.getString("id_user").equals(id)){
+                        System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
+                        break;
+                    }
+                }
+
+                //System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
             }
         } catch (Exception e) {
             System.err.println("Error al leer el archivo JSON: " + e.getMessage());

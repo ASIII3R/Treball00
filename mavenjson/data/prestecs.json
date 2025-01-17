@@ -7,7 +7,8 @@
         ],
         "data_Prestec": "2024-12-15",
         "id_user": "4124548F",
-        "id_prestec": "sade454"
+        "id_prestec": "sade454",
+        "actiu":false
     },
     {
         "data_devolucio": "2025-02-22",
@@ -16,8 +17,9 @@
             "ISB1329"
         ],
         "data_Prestec": "2025-01-22",
-        "id_user": "4512348F",
-        "id_prestec": "sade455"
+        "id_user": "4564852M",
+        "id_prestec": "sade455",
+        "actiu":false
     },
     {
         "data_devolucio": "2025-03-04",
@@ -31,7 +33,8 @@
         ],
         "data_prestec": "2025-02-04",
         "id_user": "4564548F",
-        "id_prestec": "sade456"
+        "id_prestec": "sade456",
+        "actiu":false
     },
     {
         "data_devolucio": "2025-03-25",
@@ -43,13 +46,15 @@
         ],
         "data_prestec": "2025-02-25",
         "id_user": "4564845L",
-        "id_prestec": "sade457"
+        "id_prestec": "sade457",
+        "actiu":true
     },
     {
         "data_devolucio": "2025-02-05",
         "id_llibre": ["ISB118"],
         "data_prestec": "2025-01-05",
         "id_user": "46481425N",
-        "id_prestec": "sade458"
+        "id_prestec": "sade458",
+        "actiu":false
     }
 ]
