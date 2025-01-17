@@ -343,7 +343,7 @@ public class Main {
                 String cognom = usuari.getString("cognom");
                 for (int k=0;k<prestecs.length();k++){
                     JSONObject prestec = prestecs.getJSONObject(k);
-                    if(prestec.getBoolean("actiu")&& prestec.getString("id_usuari").equals(id)&& sdf.parse(prestec.getString("data_devolucio")).before(avui)){
+                    if(prestec.getBoolean("actiu")&& prestec.getString("id_user").equals(id)&& sdf.parse(prestec.getString("data_devolucio")).before(avui)){
                         System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
                         break;
                     }
