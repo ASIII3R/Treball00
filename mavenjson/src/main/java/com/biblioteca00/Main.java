@@ -249,7 +249,7 @@ public class Main {
             JSONArray usuaris = new JSONArray(jsoncontenido.toString());
             JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
 
-            System.out.println("\n----------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS -----------------");
+            System.out.println("\n--------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS ------------");
             System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
             System.out.println("-------------------------------------------------------------");
 
@@ -331,7 +331,7 @@ public class Main {
             JSONArray usuaris = new JSONArray(jsoncontenido.toString());
             JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
 
-            System.out.println("\n-------- LLISTAT DE USUARIS AMB PRÉSTECS FORA DE TERMINI --------------");
+            System.out.println("\n------ LLISTAT DE USUARIS AMB PRÉSTECS FORA DE TERMINI ------");
             System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
             System.out.println("-------------------------------------------------------------");
             for (int j=0;j<usuaris.length();j++){
@@ -343,7 +343,7 @@ public class Main {
                 String cognom = usuari.getString("cognom");
                 for (int k=0;k<prestecs.length();k++){
                     JSONObject prestec = prestecs.getJSONObject(k);
-                    if(prestec.getBoolean("actiu")&& prestec.getString("id_usuari").equals(id)&& sdf.parse(prestec.getString("data_devolucio")).before(avui)){
+                    if(prestec.getBoolean("actiu")&& prestec.getString("id_user").equals(id)&& sdf.parse(prestec.getString("data_devolucio")).before(avui)){
                         System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
                         break;
                     }
