@@ -429,7 +429,7 @@ public class Main {
             String fechaDevolucioStr = scanner.nextLine();
             LocalDate fechaDevolucio = LocalDate.parse(fechaDevolucioStr);
 
-            System.out.print("El préstec està actiu? s/n");
+            System.out.print("El préstec està actiu? s/n ");
             String llegiractiu = scanner.nextLine().toLowerCase();
             boolean actiu = false;
             while(true){
@@ -487,7 +487,7 @@ public class Main {
                 if (prestec.getString("id_prestec").toLowerCase().equals(idBuscar)) {
                     trobat = true;
                     System.out.println(
-                            "Que vols cambiar?\n1)Data devolució\n2)ID Llibre\n3)Data préstec\n4)ID Usuari\n5)ID Préstec\n0Tornar");
+                            "Que vols cambiar?\n1)Data devolució\n2)ID Llibre\n3)Data préstec\n4)ID Usuari\n5)ID Préstec\n6)Actiu\n0Tornar");
                     String opcio = scanner.nextLine().toLowerCase();
                     switch (opcio) {
 
@@ -504,8 +504,7 @@ public class Main {
                             break;
 
                         // Opció 2. Demanar l'id del llibre, si existeix modificarlo per el que digui
-                        case "id llibre": // hacer que solamente se cambie uno de los dos IDs
-                                          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        case "id llibre":
                         case "2":
                             JSONArray idLlibreArray = prestec.getJSONArray("id_llibre");
                             System.out.print("Ids d'aquest llibre: ");
@@ -558,8 +557,31 @@ public class Main {
                             String nouIdPrestec = scanner.nextLine();
                             prestec.put("id_prestec", nouIdPrestec);
                             Files.write(Paths.get("mavenjson/data/prestecs.json"),
-                                    prestecsArray.toString(4).getBytes());
+                            prestecsArray.toString(4).getBytes());
                             break;
+                        case "actiu":
+                        case"6":
+                            System.out.print("El préstec està actiu? s/n: ");
+                            String llegiractiu = scanner.nextLine().toLowerCase();
+                            boolean actiu = false;
+                            while(true){
+                                if (llegiractiu.equals("s")){
+                                    actiu = true;
+                                    break;
+                                } if (llegiractiu.equals("n")){
+                                    actiu = false;
+                                    break;
+                                }else{
+                                    System.out.println("Si us plau, inserta una opció vàlida");
+                                    System.out.println("El préstec està actiu? s/n: ");
+                                    llegiractiu = scanner.nextLine().toLowerCase();
+                                }
+                            }
+                            prestec.put("actiu",actiu);
+                            Files.write(Paths.get("mavenjson/data/prestecs.json"),
+                            prestecsArray.toString(4).getBytes());
+                            break;
+
                         case "tornar":
                         case "0":
                             return;
