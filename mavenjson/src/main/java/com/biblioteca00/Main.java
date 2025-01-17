@@ -16,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+// ./run.sh com.biblioteca00.Main
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
