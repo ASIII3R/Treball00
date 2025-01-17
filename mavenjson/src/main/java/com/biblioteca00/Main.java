@@ -249,7 +249,7 @@ public class Main {
             JSONArray usuaris = new JSONArray(jsoncontenido.toString());
             JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
 
-            System.out.println("\n----------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS -----------------");
+            System.out.println("\n--------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS ------------");
             System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
             System.out.println("-------------------------------------------------------------");
 
@@ -331,7 +331,7 @@ public class Main {
             JSONArray usuaris = new JSONArray(jsoncontenido.toString());
             JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
 
-            System.out.println("\n-------- LLISTAT DE USUARIS AMB PRÉSTECS FORA DE TERMINI --------------");
+            System.out.println("\n------ LLISTAT DE USUARIS AMB PRÉSTECS FORA DE TERMINI ------");
             System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
             System.out.println("-------------------------------------------------------------");
             for (int j=0;j<usuaris.length();j++){
