@@ -429,6 +429,24 @@ public class Main {
             String fechaDevolucioStr = scanner.nextLine();
             LocalDate fechaDevolucio = LocalDate.parse(fechaDevolucioStr);
 
+            System.out.print("El préstec està actiu? s/n");
+            String llegiractiu = scanner.nextLine().toLowerCase();
+            boolean actiu = false;
+            while(true){
+                if (llegiractiu.equals("s")){
+                    actiu = true;
+                    break;
+                }if(llegiractiu.equals("n")){
+                    actiu = false;
+                    break;
+                }else{
+                    System.out.println("Opció no vàlida, inserta una opció vàlida: ");
+                    System.out.print("El préstec està actiu? s/n");
+                    llegiractiu = scanner.nextLine().toLowerCase();
+                }
+            }
+
+
             // Crear el objeto JSON del préstamo
             JSONObject prestecJson = new JSONObject();
             prestecJson.put("id_Prestec", idPrestec);
@@ -436,6 +454,7 @@ public class Main {
             prestecJson.put("id_User", idUser);
             prestecJson.put("data_Prestec", fechaPrestec.toString());
             prestecJson.put("data_Devolucio", fechaDevolucio.toString());
+            prestecJson.put("actiu",actiu);
 
             // Agregar el nuevo préstamo a la lista de préstamos
             prestecsArray.put(prestecJson);
