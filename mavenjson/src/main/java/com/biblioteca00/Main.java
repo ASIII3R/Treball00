@@ -79,7 +79,8 @@ public class Main {
                         System.out.println("aquí anirà la funció per afegir usuaris");
                     case "2":
                     case "modificar":
-                        System.out.println("Aquí anirà la funció per modificar usuaris");
+                        modificarUsuaris(args);
+                        break;
                     case"3":
                     case"eliminar":
                         System.out.println("Aquí anirà la funció per eliminar usuaris");
@@ -102,7 +103,9 @@ public class Main {
                             case"tornar al menú de usuaris":
                             case"tornar":
                                 System.out.println("Aquí es tornarà");
+                                
                         }
+                        break;
                 }
 
             case "3":
@@ -227,5 +230,74 @@ public class Main {
         } catch (Exception e) { 
             System.out.println("Error: "+e.getMessage());//COMPROBAR PORQUÉ DA ERROR LO QUE DEBERIA ESTAR BIEN
         }
+    }
+    public static void modificarUsuaris(String[] args) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Introdueix l'id de l'usuari que vols modificar");
+            String idModificar = scanner.nextLine();
+
+            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+
+            JSONArray usuarisArray = new JSONArray(contenido);
+
+            boolean idTrobat = false;
+
+            for (int i = 0; i<usuarisArray.length();i++){
+            JSONObject usuari = usuarisArray.getJSONObject(i);
+            if (usuari.getString("id").toLowerCase().equals(idModificar)){
+                idTrobat = true;
+
+                
+            }
+            if (idTrobat) {
+                System.err.println("Quina dada vols modificar de l'usuari: \n1) ID\n2) Nom\n3) Cognom\n4) Telefon");
+
+                String opcio = scanner.nextLine().toLowerCase();
+                switch(opcio){
+
+                    case "id":
+                    case "1":
+                    case"ID":
+                        System.out.print("Inserta el nou ID: ");
+                        String nouId = scanner.nextLine();
+                        usuari.put("id",nouId);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),usuarisArray.toString().getBytes());
+                        break;
+
+                    case "nom":
+                    case "2":
+                    case"NOM":
+                        System.out.print("Inserta el nou nom: ");
+                        String nouNom = scanner.nextLine();
+                        usuari.put("nom",nouNom);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),usuarisArray.toString().getBytes());
+                        break;
+                    case "cognom":
+                    case "3":
+                    case"COGNOM":
+                        System.out.print("Inserta el nou ID: ");
+                        String nouCognom = scanner.nextLine();
+                        usuari.put("id",nouCognom);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),usuarisArray.toString().getBytes());
+                        break;
+                    case "telefon":
+                    case "4":
+                    case"TELEFON":
+                        System.out.print("Inserta el nou telefon: ");
+                        String nouTelefon = scanner.nextLine();
+                        usuari.put("id",nouTelefon);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),usuarisArray.toString().getBytes());
+                        break;
+
+                }
+            }
+        }
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+        }
+
+
+        
     }
 }
