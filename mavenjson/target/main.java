@@ -229,9 +229,29 @@ public class main {
                     
                 }
                 if (idTrobat) {
-
-
                     System.err.println("Quina dada vols modificar de l'usuari: \n1) ID\n2) Nom\n3) Cognom\n4) Telefon");
+
+                    String opcio = scanner.nextLine().toLowerCase();
+                    switch(opcio){
+
+                        case "id":
+                        case "1":
+                        case"ID":
+                            System.err.println("id");
+                        case "nom":
+                        case "2":
+                        case"NOM":
+                            System.err.println("nom");
+                        case "cognom":
+                        case "3":
+                        case"COGNOM":
+                            System.err.println("cognom");
+                        case "telefon":
+                        case "4":
+                        case"TELEFON":
+                            System.err.println("telefon");
+
+                    }
                 }
             }
 
