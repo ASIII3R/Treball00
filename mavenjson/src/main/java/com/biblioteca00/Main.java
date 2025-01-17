@@ -6,7 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
@@ -183,7 +185,7 @@ public class Main {
                     break;
                 case "3":
                 case "per autor":
-                    System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs fora de termini");
+                    llistarUsuarisForaTermini();
                     break;
                 case "0":
                 case "tornar al menú de usuaris":
@@ -274,6 +276,7 @@ public class Main {
         }
     }
 
+
     public static void menuGestióPréstecs(Scanner scanner) {
         while (true) {
             System.out.println(
@@ -305,6 +308,53 @@ public class Main {
                     System.out.println("Opció no vàlida");
             }
         }
+    }
+
+    public static void llistarUsuarisForaTermini(){
+        String usuarisFilePath = "mavenjson/data/usuaris.json";
+        String prestecsFilePath = "mavenjson/data/prestecs.json";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date avui = new Date();
+
+        try(FileReader leer = new FileReader(usuarisFilePath);
+            FileReader prestecsLeer = new FileReader(prestecsFilePath)){
+
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+            while((i=leer.read())!= -1){
+                jsoncontenido.append((char)i);
+            }
+            StringBuilder prestecsJsonContenido = new StringBuilder();
+            while((i=prestecsLeer.read())!=-1){
+                prestecsJsonContenido.append((char)i);
+            }
+            JSONArray usuaris = new JSONArray(jsoncontenido.toString());
+            JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
+
+            System.out.println("\n-------- LLISTAT DE USUARIS AMB PRÉSTECS FORA DE TERMINI --------------");
+            System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
+            System.out.println("-------------------------------------------------------------");
+            for (int j=0;j<usuaris.length();j++){
+                JSONObject usuari = usuaris.getJSONObject(j);
+
+                String telefon = usuari.getString("telefon");
+                String id = usuari.getString("id");
+                String nom = usuari.getString("nom");
+                String cognom = usuari.getString("cognom");
+                for (int k=0;k<prestecs.length();k++){
+                    JSONObject prestec = prestecs.getJSONObject(k);
+                    if(prestec.getBoolean("actiu")&& prestec.getString("id_usuari").equals(id)&& sdf.parse(prestec.getString("data_devolucio")).before(avui)){
+                        System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
+                        break;
+                    }
+                }
+            }
+
+
+            }catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+            
     }
 
     public static void afegirPrestec(Scanner scanner) {
