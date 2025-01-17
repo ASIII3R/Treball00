@@ -219,11 +219,19 @@ public class main {
 
                 JSONArray usuarisArray = new JSONArray(contenido);
 
+                boolean idTrobat = false;
+
                 for (int i = 0; i<usuarisArray.length();i++){
                 JSONObject usuari = usuarisArray.getJSONObject(i);
                 if (usuari.getString("id").toLowerCase().equals(idModificar)){
+                    idTrobat = true;
 
                     
+                }
+                if (idTrobat) {
+
+
+                    System.err.println("Quina dada vols modificar de l'usuari: \n1) ID\n2) Nom\n3) Cognom\n4) Telefon");
                 }
             }
 
