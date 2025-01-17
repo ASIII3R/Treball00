@@ -700,7 +700,7 @@ public class Main {
 
         } catch (IOException | JSONException e) {
                 System.out.println("S'ha produït un error: " + e.getMessage());
-                e.printStackTrace();        }
+                e.printStackTrace();        }}
 
     // Listar todos los libros
     public static void llistarTotsLlibres() {
