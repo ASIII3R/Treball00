@@ -86,7 +86,7 @@ public class Main {
                     break;
                 case "2":
                 case "modificar":
-                    System.out.println("Aquí anirà la funció per modificar un llibre");
+                    modificarLlibre(scanner);
                     break;
                 case "3":
                 case "eliminar":
@@ -155,7 +155,7 @@ public class Main {
             JSONObject llibres = new JSONObject(jsoncontenido.toString());
             JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
 
-            System.out.println("\n--------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS ------------");
+            System.out.println("\n--------- LLISTAT DE LLIBRES AMB PRÉSTECS ACTIUS ------------");
             System.out.printf("%-20s %-20s %-20s\n", "id", "nom","autor");
             System.out.println("-------------------------------------------------------------");
 
@@ -170,16 +170,17 @@ public class Main {
 
                 for (int k=0;k<prestecs.length();k++){
                     JSONObject prestec = prestecs.getJSONObject(k);
-                    if (prestec.getBoolean("actiu")){
+                    if (prestec.has("actiu")&& prestec.getBoolean("actiu")){
+                        if (prestec.has("id_llibre")){
                         JSONArray idLlibres = prestec.getJSONArray("id_llibre");
                         for (int l=0;l<idLlibres.length();l++){
                             if (idLlibres.getString(l).equals(id)){
-                                System.out.printf("%-20s %-20s %-20s\n",id,nom,autor);
                                 break;
-                            }
+                            }}
                         }
                     }
                 }
+                System.out.printf("%-20s %-20s %-20s\n",id,nom,autor);
             }
         } catch (Exception e) {
             System.err.println("Error al leer el archivo JSON: " + e.getMessage());
