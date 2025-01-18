@@ -190,7 +190,7 @@ public class Main {
     public static void menuGestióUsuaris(Scanner scanner) {
         while (true) {
             System.out.println(
-                    "\n--- Gestió de Usuaris---\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
+                    "\n--- Gestió de Usuaris---\n1. Afegir\n2. Modificar\n3. Eliminar\n4. Llistar\n0. Tornar al menú principal");
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
 
@@ -315,7 +315,7 @@ public class Main {
 
                 for (int k = 0; k < prestecs.length(); k++) {
                     JSONObject prestec = prestecs.getJSONObject(k);
-                    if (prestec.getBoolean("actiu") && prestec.getString("id_user").equals(id)) {
+                    if (prestec.getBoolean("actiu") && prestec.getString("id_User").equals(id)) {
                         System.out.printf("%-15s %-15s %-15s %-15s\n", telefon, id, nom, cognom);
                         break;
                     }
@@ -397,8 +397,8 @@ public class Main {
                 String cognom = usuari.getString("cognom");
                 for (int k = 0; k < prestecs.length(); k++) {
                     JSONObject prestec = prestecs.getJSONObject(k);
-                    if (prestec.getBoolean("actiu") && prestec.getString("id_user").equals(id)
-                            && sdf.parse(prestec.getString("data_devolucio")).before(avui)) {
+                    if (prestec.getBoolean("actiu") && prestec.getString("id_User").equals(id)
+                            && sdf.parse(prestec.getString("data_Devolucio")).before(avui)) {
                         System.out.printf("%-15s %-15s %-15s %-15s\n", telefon, id, nom, cognom);
                         break;
                     }
@@ -538,7 +538,7 @@ public class Main {
             // Recorrer prestecsArray i comprobar si id_prestec es igual a idBuscar
             for (int i = 0; i < prestecsArray.length(); i++) {
                 JSONObject prestec = prestecsArray.getJSONObject(i);
-                if (prestec.getString("id_prestec").toLowerCase().equals(idBuscar)) {
+                if (prestec.getString("id_Prestec").toLowerCase().equals(idBuscar)) {
                     trobat = true;
                     System.out.println(
                             "Que vols cambiar?\n1)Data devolució\n2)ID Llibre\n3)Data préstec\n4)ID Usuari\n5)ID Préstec\n6)Actiu\n0Tornar");
@@ -572,7 +572,7 @@ public class Main {
                                 System.out.print("Inserta el nou ID del llibre: ");
                                 String nouIDLlibre = scanner.nextLine();
                                 idLlibreArray.put(llista, nouIDLlibre);
-                                prestec.put("id_llibre", idLlibreArray);
+                                prestec.put("id_Llibre", idLlibreArray);
                                 Files.write(Paths.get("mavenjson/data/prestecs.json"),
                                         prestecsArray.toString(4).getBytes());
                                 break;
@@ -586,7 +586,7 @@ public class Main {
                         case "3":
                             System.out.print("Inserta la nova data de préstec (yyyy-mm-dd): ");
                             String novaDataPrestec = scanner.nextLine();
-                            prestec.put("data_prestec", novaDataPrestec);
+                            prestec.put("data_Prestec", novaDataPrestec);
                             Files.write(Paths.get("mavenjson/data/prestecs.json"),
                                     prestecsArray.toString(4).getBytes());
                             break;
@@ -597,7 +597,7 @@ public class Main {
                         case "4":
                             System.out.print("Inserta el nou id de usuari: ");
                             String nouIdUser = scanner.nextLine();
-                            prestec.put("id_user", nouIdUser);
+                            prestec.put("id_User", nouIdUser);
                             Files.write(Paths.get("mavenjson/data/prestecs.json"),
                                     prestecsArray.toString(4).getBytes());
                             break;
@@ -609,7 +609,7 @@ public class Main {
                         case "5":
                             System.out.print("Inserta el nou id de préstec: ");
                             String nouIdPrestec = scanner.nextLine();
-                            prestec.put("id_prestec", nouIdPrestec);
+                            prestec.put("id_Prestec", nouIdPrestec);
                             Files.write(Paths.get("mavenjson/data/prestecs.json"),
                                     prestecsArray.toString(4).getBytes());
                             break;
@@ -1123,7 +1123,7 @@ public class Main {
     
         try {
             // Llegeix el contingut del fitxer JSON
-            String archivo = "/home/super/Documents/GitHub/Treball00/mavenjson/data/prestecs.json";
+            String archivo = "mavenjson/data/prestecs.json";
             String contenido = new String(Files.readAllBytes(Paths.get(archivo)));
             JSONArray prestecs = new JSONArray(contenido);
     
