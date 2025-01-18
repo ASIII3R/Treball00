@@ -6,7 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
@@ -15,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+// ./run.sh com.biblioteca00.Main
 
 public class Main {
     public static void main(String[] args) {
@@ -167,21 +171,21 @@ public class Main {
     public static void menuLlistarUsuaris(Scanner scanner) {
         while (true) {
             System.out.println(
-                    "\n--- Llistar usuaris ---\n1. Tots\n2.Amb préstecs actius\n3.Amb préstecs fora de termini\n0.Tornar al menú de usuaris");
+                    "\n--- Llistar usuaris ---\n1.Tots\n2.Amb préstecs actius\n3.Amb préstecs fora de termini\n0.Tornar al menú de usuaris");
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
             switch (opc) {
                 case "1":
                 case "tots":
-                    System.out.println("Aquí anirà la funció per llistar tots els usuaris");
+                    llistarTotsUsuaris();
                     break;
                 case "2":
                 case "en préstec":
-                    System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs actius");
+                    llistarUsuarisPrestecsActius();
                     break;
                 case "3":
                 case "per autor":
-                    System.out.println("Aquí anirà la funció per a llistar els usuaris amb préstecs fora de termini");
+                    llistarUsuarisForaTermini();
                     break;
                 case "0":
                 case "tornar al menú de usuaris":
@@ -190,6 +194,88 @@ public class Main {
             }
         }
     }
+
+    public static void llistarTotsUsuaris() {
+        String filePath = "mavenjson/data/usuaris.json";
+
+        try (FileReader leer = new FileReader(filePath)) {
+            ;
+
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+            while ((i = leer.read()) != -1) {
+                jsoncontenido.append((char) i);
+            }
+
+            JSONArray usuaris = new JSONArray(jsoncontenido.toString());
+
+            System.out.println("\n------------- LLISTAT DE TOTS ELS LLIBRES -------------------");
+            System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
+            System.out.println("-------------------------------------------------------------");
+
+            for (int j=0; j<usuaris.length();j++){
+                JSONObject usuari = usuaris.getJSONObject(j);
+
+                String telefon = usuari.getString("telefon");
+                String id = usuari.getString("id");
+                String nom = usuari.getString("nom");
+                String cognom = usuari.getString("cognom");
+
+                System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al leer el archivo JSON: " + e.getMessage());
+        }
+    }
+
+    public static void llistarUsuarisPrestecsActius() {
+        String usuarisFilePath = "mavenjson/data/usuaris.json";
+        String prestecsFilePath = "mavenjson/data/prestecs.json";
+
+        try (FileReader leer = new FileReader(usuarisFilePath);
+            FileReader prestecsLeer = new FileReader(prestecsFilePath)) {
+            ;
+
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+            while ((i = leer.read()) != -1) {
+                jsoncontenido.append((char) i);
+            }
+            StringBuilder prestecsJsonContenido = new StringBuilder();
+            while((i=prestecsLeer.read())!=-1){
+                prestecsJsonContenido.append((char)i);
+            }
+
+            JSONArray usuaris = new JSONArray(jsoncontenido.toString());
+            JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
+
+            System.out.println("\n--------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS ------------");
+            System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
+            System.out.println("-------------------------------------------------------------");
+
+            for (int j=0; j<usuaris.length();j++){
+                JSONObject usuari = usuaris.getJSONObject(j);
+
+                String telefon = usuari.getString("telefon");
+                String id = usuari.getString("id");
+                String nom = usuari.getString("nom");
+                String cognom = usuari.getString("cognom");
+
+                for (int k=0;k<prestecs.length();k++){
+                    JSONObject prestec = prestecs.getJSONObject(k);
+                    if (prestec.getBoolean("actiu")&&prestec.getString("id_user").equals(id)){
+                        System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
+                        break;
+                    }
+                }
+
+                //System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al leer el archivo JSON: " + e.getMessage());
+        }
+    }
+
 
     public static void menuGestióPréstecs(Scanner scanner) {
         while (true) {
@@ -222,6 +308,53 @@ public class Main {
                     System.out.println("Opció no vàlida");
             }
         }
+    }
+
+    public static void llistarUsuarisForaTermini(){
+        String usuarisFilePath = "mavenjson/data/usuaris.json";
+        String prestecsFilePath = "mavenjson/data/prestecs.json";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date avui = new Date();
+
+        try(FileReader leer = new FileReader(usuarisFilePath);
+            FileReader prestecsLeer = new FileReader(prestecsFilePath)){
+
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+            while((i=leer.read())!= -1){
+                jsoncontenido.append((char)i);
+            }
+            StringBuilder prestecsJsonContenido = new StringBuilder();
+            while((i=prestecsLeer.read())!=-1){
+                prestecsJsonContenido.append((char)i);
+            }
+            JSONArray usuaris = new JSONArray(jsoncontenido.toString());
+            JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
+
+            System.out.println("\n------ LLISTAT DE USUARIS AMB PRÉSTECS FORA DE TERMINI ------");
+            System.out.printf("%-15s %-15s %-15s %-15s\n", "telefon", "id", "nom","cognom");
+            System.out.println("-------------------------------------------------------------");
+            for (int j=0;j<usuaris.length();j++){
+                JSONObject usuari = usuaris.getJSONObject(j);
+
+                String telefon = usuari.getString("telefon");
+                String id = usuari.getString("id");
+                String nom = usuari.getString("nom");
+                String cognom = usuari.getString("cognom");
+                for (int k=0;k<prestecs.length();k++){
+                    JSONObject prestec = prestecs.getJSONObject(k);
+                    if(prestec.getBoolean("actiu")&& prestec.getString("id_user").equals(id)&& sdf.parse(prestec.getString("data_devolucio")).before(avui)){
+                        System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
+                        break;
+                    }
+                }
+            }
+
+
+            }catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+            
     }
 
     public static void afegirPrestec(Scanner scanner) {
@@ -296,6 +429,24 @@ public class Main {
             String fechaDevolucioStr = scanner.nextLine();
             LocalDate fechaDevolucio = LocalDate.parse(fechaDevolucioStr);
 
+            System.out.print("El préstec està actiu? s/n ");
+            String llegiractiu = scanner.nextLine().toLowerCase();
+            boolean actiu = false;
+            while(true){
+                if (llegiractiu.equals("s")){
+                    actiu = true;
+                    break;
+                }if(llegiractiu.equals("n")){
+                    actiu = false;
+                    break;
+                }else{
+                    System.out.println("Opció no vàlida, inserta una opció vàlida: ");
+                    System.out.print("El préstec està actiu? s/n");
+                    llegiractiu = scanner.nextLine().toLowerCase();
+                }
+            }
+
+
             // Crear el objeto JSON del préstamo
             JSONObject prestecJson = new JSONObject();
             prestecJson.put("id_Prestec", idPrestec);
@@ -303,6 +454,7 @@ public class Main {
             prestecJson.put("id_User", idUser);
             prestecJson.put("data_Prestec", fechaPrestec.toString());
             prestecJson.put("data_Devolucio", fechaDevolucio.toString());
+            prestecJson.put("actiu",actiu);
 
             // Agregar el nuevo préstamo a la lista de préstamos
             prestecsArray.put(prestecJson);
@@ -335,7 +487,7 @@ public class Main {
                 if (prestec.getString("id_prestec").toLowerCase().equals(idBuscar)) {
                     trobat = true;
                     System.out.println(
-                            "Que vols cambiar?\n1)Data devolució\n2)ID Llibre\n3)Data préstec\n4)ID Usuari\n5)ID Préstec\n0Tornar");
+                            "Que vols cambiar?\n1)Data devolució\n2)ID Llibre\n3)Data préstec\n4)ID Usuari\n5)ID Préstec\n6)Actiu\n0Tornar");
                     String opcio = scanner.nextLine().toLowerCase();
                     switch (opcio) {
 
@@ -352,8 +504,7 @@ public class Main {
                             break;
 
                         // Opció 2. Demanar l'id del llibre, si existeix modificarlo per el que digui
-                        case "id llibre": // hacer que solamente se cambie uno de los dos IDs
-                                          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        case "id llibre":
                         case "2":
                             JSONArray idLlibreArray = prestec.getJSONArray("id_llibre");
                             System.out.print("Ids d'aquest llibre: ");
@@ -406,8 +557,31 @@ public class Main {
                             String nouIdPrestec = scanner.nextLine();
                             prestec.put("id_prestec", nouIdPrestec);
                             Files.write(Paths.get("mavenjson/data/prestecs.json"),
-                                    prestecsArray.toString(4).getBytes());
+                            prestecsArray.toString(4).getBytes());
                             break;
+                        case "actiu":
+                        case"6":
+                            System.out.print("El préstec està actiu? s/n: ");
+                            String llegiractiu = scanner.nextLine().toLowerCase();
+                            boolean actiu = false;
+                            while(true){
+                                if (llegiractiu.equals("s")){
+                                    actiu = true;
+                                    break;
+                                } if (llegiractiu.equals("n")){
+                                    actiu = false;
+                                    break;
+                                }else{
+                                    System.out.println("Si us plau, inserta una opció vàlida");
+                                    System.out.println("El préstec està actiu? s/n: ");
+                                    llegiractiu = scanner.nextLine().toLowerCase();
+                                }
+                            }
+                            prestec.put("actiu",actiu);
+                            Files.write(Paths.get("mavenjson/data/prestecs.json"),
+                            prestecsArray.toString(4).getBytes());
+                            break;
+
                         case "tornar":
                         case "0":
                             return;
@@ -676,6 +850,29 @@ public class Main {
         }
         return false;
     }
+    public static void eliminarUsuari(Scanner scanner){
+        //Llegir el arxiu json
+        try {
+            FileReader reader = new FileReader("mavenjson/data/usuaris.json");
+            JSONArray usuArray = new JSONArray(new JSONTokener(reader));
+
+            System.out.print("Introdueix el ID de l'usuari a eliminar: ");
+            String idEliminar = scanner.nextLine();
+            for (int i = 0; i<usuArray.length();i++){
+                JSONObject usuari = usuArray.getJSONObject(i);
+                if (usuari.getString("id").equals(idEliminar)){
+                    usuArray.remove(i);
+                    break;
+                }
+            }
+            System.out.println("No s'ha trobat l'id demanat\n");
+            FileWriter writer = new FileWriter("mavenjson/data/usuaris.json");
+            writer.write(usuArray.toString(4));
+            writer.close();
+
+        } catch (IOException | JSONException e) {
+                System.out.println("S'ha produït un error: " + e.getMessage());
+                e.printStackTrace();        }}
 
     // Listar todos los libros
     public static void llistarTotsLlibres() {
@@ -808,31 +1005,6 @@ public class Main {
         }
     }
 
-    public static void eliminarUsuari(Scanner scanner) {
-        // Llegir el arxiu json
-        try {
-            FileReader reader = new FileReader("mavenjson/data/usuaris.json");
-            JSONArray usuArray = new JSONArray(new JSONTokener(reader));
-
-            System.out.print("Introdueix el ID de l'usuari a eliminar: ");
-            String idEliminar = scanner.nextLine();
-            for (int i = 0; i < usuArray.length(); i++) {
-                JSONObject usuari = usuArray.getJSONObject(i);
-                if (usuari.getString("id").equals(idEliminar)) {
-                    usuArray.remove(i);
-                    break;
-                }
-            }
-            System.out.println("No s'ha trobat l'id demanat\n");
-            FileWriter writer = new FileWriter("mavenjson/data/usuaris.json");
-            writer.write(usuArray.toString(4));
-            writer.close();
-
-        } catch (IOException | JSONException e) {
-            System.out.println("S'ha produït un error: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     public static void llistarPrestecs() {
         try {
