@@ -299,7 +299,7 @@ public class Main {
                     break;
                 case "4":
                 case "llistar":
-                    llistarPrestecs();
+                    llistarPrestecs(scanner);
                     break;
                 case "0":
                 case "tornar":
@@ -663,9 +663,44 @@ public class Main {
         }
         return false;
     }
+    public static void llistarPrestecs(Scanner scanner){
+        while (true) {
+            System.out.println(
+                    "\n--- Llistar Préstecs ---\n1. Llistar tots\n2. Llistar préstecs d'un usuari\n3. Llistar préstecs actius\n4. Llistar préstecs fora de termini\n0. Tornar");
+            System.out.print("Escull una opció: ");
+            String opc = scanner.nextLine().toLowerCase();
 
-    // Listar préstamos en el JSON
-    public static void llistarPrestecs() {
+            switch (opc) {
+                case "1":
+                case "tots":
+                case "llistar tots":
+                    llistarTotsPrestecs(); //Funció per llistar tots els préstecs
+                    break;
+                case "2":
+                case "llistar préstecs d'un usuari":
+                case "llistar prestecs d'un usuari":
+                    System.out.println("Aquí anirà la funció per llistar els préstecs d'un usuari concret"); //Funció per llistar préstecs d'un usuari
+                    break;
+                case "3":
+                case "llistar préstecs actius":
+                case "llistar prestecs actius":
+                    System.out.println("Aquí anirà la funció per llistar préstecs actius"); //Funció per llistar préstecs actius
+                    break;
+                case "4":
+                case "llistar préstecs fora de termini":
+                case "llistar prestecs fora de termini":
+                    System.out.println("Aquí anirà la funció per llistar préstecs fora de termini"); //Funció per llistar préstecs fora de termini
+                    break;
+                case "0":
+                case "tornar": //Tornar al menú anterior
+                    return;
+                default:
+                    System.out.println("Opció no vàlida");
+            }
+        }
+    }
+    // Listar todos los préstamos en el JSON
+    public static void llistarTotsPrestecs() {
         try {
             String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
             JSONArray prestecsArray = new JSONArray(content);
