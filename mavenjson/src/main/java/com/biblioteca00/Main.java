@@ -912,16 +912,20 @@ public class Main {
             FileReader reader = new FileReader("mavenjson/data/usuaris.json");
             JSONArray usuArray = new JSONArray(new JSONTokener(reader));
 
+            Boolean usuariEliminat = false;
             System.out.print("Introdueix el ID de l'usuari a eliminar: ");
             String idEliminar = scanner.nextLine();
             for (int i = 0; i < usuArray.length(); i++) {
                 JSONObject usuari = usuArray.getJSONObject(i);
                 if (usuari.getString("id").equals(idEliminar)) {
                     usuArray.remove(i);
+                    usuariEliminat = true;
                     break;
                 }
             }
-            System.out.println("No s'ha trobat l'id demanat\n");
+            if(!usuariEliminat){
+                System.out.println("No s'ha trobat l'id demanat\n");
+            }
             FileWriter writer = new FileWriter("mavenjson/data/usuaris.json");
             writer.write(usuArray.toString(4));
             writer.close();
