@@ -4,6 +4,7 @@
         "data_Devolucio": "2025-03-02",
         "id_User": "45447487L",
         "id_Llibre": ["ISB454"],
+        "actiu": false,
         "data_Prestec": "2025-02-02"
     },
     {
@@ -35,10 +36,10 @@
     },
     {
         "id_Prestec": "PRESTEC5",
-        "data_Devolucio": "2025-02-05",
-        "id_User": "12345123A",
+        "data_Devolucio": "2025-01-01",
+        "id_User": "4564845L",
         "id_Llibre": ["ISB118"],
         "actiu": true,
-        "data_Prestec": "2025-01-05"
+        "data_Prestec": "2024-12-05"
     }
 ]
