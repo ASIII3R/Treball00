@@ -784,7 +784,7 @@ public class Main {
                 case "4":
                 case "llistar préstecs fora de termini":
                 case "llistar prestecs fora de termini":
-                    System.out.println("Aquí anirà la funció per llistar préstecs fora de termini"); //Funció per llistar préstecs fora de termini
+                    llistarPrestecsForaTermini(); //Funció per llistar préstecs fora de termini
                     break;
                 case "0":
                 case "tornar": //Tornar al menú anterior
@@ -839,6 +839,44 @@ public class Main {
         } catch (IOException | JSONException e) {
             System.out.println("Error al llegir els préstecs: " + e.getMessage() + "\n");
         }
+    }
+    public static void llistarPrestecsForaTermini() {
+        String prestecsFilePath = "mavenjson/data/prestecs.json";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date avui = new Date();
+
+        try (FileReader prestecsLeer = new FileReader(prestecsFilePath)) {
+
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+
+            StringBuilder prestecsJsonContenido = new StringBuilder();
+            while ((i = prestecsLeer.read()) != -1) {
+                prestecsJsonContenido.append((char) i);
+            }
+            JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
+
+            System.out.println("\n--------------------------------------- LLISTAT DE PRÉSTECS FORA DE TERMINI -------------------------------------------");
+            System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", "ID Préstec", "Data Devolució","ID User","ID Llibre","Actiu","Préstec");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+
+                for (int k = 0; k < prestecs.length(); k++) {
+                    JSONObject prestec = prestecs.getJSONObject(k);
+                    if (prestec.getBoolean("actiu") && sdf.parse(prestec.getString("data_Devolucio")).before(avui)) {
+                                String id_prestec = prestec.getString("id_Prestec");
+                                String data_devolucio = prestec.getString("data_Devolucio");
+                                String id_user = prestec.getString("id_User");
+                                String id_llibre = prestec.getJSONArray("id_Llibre").toString();
+                                Boolean actiu = prestec.getBoolean("actiu");
+                                String data_prestec = prestec.getString("data_Prestec");
+
+                        System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", id_prestec, data_devolucio, id_user, id_llibre,actiu,data_prestec);
+                    }
+            }
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+
     }
 
     // Método para agregar un libro
