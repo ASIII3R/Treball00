@@ -774,7 +774,7 @@ public class Main {
                 case "2":
                 case "llistar préstecs d'un usuari":
                 case "llistar prestecs d'un usuari":
-                    System.out.println("Aquí anirà la funció per llistar els préstecs d'un usuari concret"); //Funció per llistar préstecs d'un usuari
+                    llistarPrestecsUsuari(); //Funció per llistar préstecs d'un usuari
                     break;
                 case "3":
                 case "llistar préstecs actius":
@@ -847,7 +847,6 @@ public class Main {
 
         try (FileReader prestecsLeer = new FileReader(prestecsFilePath)) {
 
-            StringBuilder jsoncontenido = new StringBuilder();
             int i;
 
             StringBuilder prestecsJsonContenido = new StringBuilder();
@@ -879,6 +878,36 @@ public class Main {
 
     }
 
+    public static void llistarPrestecsUsuari() {
+        String prestecsFilePath = "mavenjson/data/prestecs.json";
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Introdueix l'id de l'usuari: ");
+        String userId = scanner.nextLine();
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+            JSONArray prestecsArray = new JSONArray(content);
+            System.out.println("\n-------------------------------------------- LLISTAT DE  PRÉSTECS ACTIUS ------------------------------------------------");
+            System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", "ID Préstec", "Data Devolució","ID User","ID Llibre","Actiu","Préstec");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+
+            for (int i = 0; i < prestecsArray.length(); i++) {
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                if (prestec.getString("id_User").equals(userId)){
+                    System.out.printf("%-15s %-20s %-15s %-60s %-20s\n",// Imprime con formato
+                    prestec.getString("id_Prestec"),
+                    prestec.getString("data_Devolucio"),
+                    prestec.getString("id_User"),
+                    prestec.getJSONArray("id_Llibre").toString(),
+                    prestec.getBoolean("actiu"),
+                    prestec.getString("data_Prestec"));
+                }
+            }
+        } catch (IOException | JSONException e) {
+            System.out.println("Error al llegir els préstecs: " + e.getMessage() + "\n");
+        }
+    }
     // Método para agregar un libro
     public static void afegirLlibre(Scanner scanner) {
         try {
