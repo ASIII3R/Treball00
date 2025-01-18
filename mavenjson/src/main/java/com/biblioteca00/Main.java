@@ -117,7 +117,7 @@ public class Main {
                     break;
                 case "2":
                 case "en préstec":
-                    System.out.println("Aquí anirà la funció per a llistar els llibres en préstec");
+                    llistarLlibresEnPrestec();
                     break;
                 case "3":
                 case "per autor":
@@ -134,6 +134,57 @@ public class Main {
             }
         }
     }
+    public static void llistarLlibresEnPrestec(){
+        String llibresFilePath = "mavenjson/data/llibres.json";
+        String prestecsFilePath = "mavenjson/data/prestecs.json";
+
+        try (FileReader leer = new FileReader(llibresFilePath);
+            FileReader prestecsLeer = new FileReader(prestecsFilePath)) {
+            ;
+
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+            while ((i = leer.read()) != -1) {
+                jsoncontenido.append((char) i);
+            }
+            StringBuilder prestecsJsonContenido = new StringBuilder();
+            while((i=prestecsLeer.read())!=-1){
+                prestecsJsonContenido.append((char)i);
+            }
+
+            JSONObject llibres = new JSONObject(jsoncontenido.toString());
+            JSONArray prestecs = new JSONArray(prestecsJsonContenido.toString());
+
+            System.out.println("\n--------- LLISTAT DE USUARIS AMB PRÉSTECS ACTIUS ------------");
+            System.out.printf("%-20s %-20s %-20s\n", "id", "nom","autor");
+            System.out.println("-------------------------------------------------------------");
+
+            Iterator<String> keys = llibres.keys();
+            while (keys.hasNext()){
+                String key = keys.next();
+                JSONObject llibre = llibres.getJSONObject(key);
+                
+                String id = llibre.getString("ID");
+                String nom = llibre.getString("nom");
+                String autor = llibre.getString("autor");
+
+                for (int k=0;k<prestecs.length();k++){
+                    JSONObject prestec = prestecs.getJSONObject(k);
+                    if (prestec.getBoolean("actiu")){
+                        JSONArray idLlibres = prestec.getJSONArray("id_llibre");
+                        for (int l=0;l<idLlibres.length();l++){
+                            if (idLlibres.getString(l).equals(id)){
+                                System.out.printf("%-20s %-20s %-20s\n",id,nom,autor);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al leer el archivo JSON: " + e.getMessage());
+        }
+    } 
 
     public static void menuGestióUsuaris(Scanner scanner) {
         while (true) {
@@ -268,8 +319,6 @@ public class Main {
                         break;
                     }
                 }
-
-                //System.out.printf("%-15s %-15s %-15s %-15s\n",telefon,id,nom,cognom);
             }
         } catch (Exception e) {
             System.err.println("Error al leer el archivo JSON: " + e.getMessage());
