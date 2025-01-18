@@ -5,5 +5,12 @@
         "id_User": "45447487L",
         "id_Llibre": ["ISB454"],
         "data_Prestec": "2025-02-02"
+    },
+    {
+        "id_Prestec": "PRESTEC2",
+        "data_Devolucio": "2020-03-05",
+        "id_User": "45612321M",
+        "id_Llibre": ["493936"],
+        "data_Prestec": "2020-02-05"
     }
 ]
