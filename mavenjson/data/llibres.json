@@ -7,11 +7,16 @@
     "2": {
         "ID": "ISB4549",
         "nom": "llibre de java",
-        "autor": "asier pozo"
+        "autor": "asier "
     },
     "3": {
         "ID": "ISB4121",
         "nom": "Geronimo Stilton",
         "autor": "Elisabetta Dami"
+    },
+    "4": {
+        "ID": "560532",
+        "nom": "manual de js",
+        "autor": "pol garcia"
     }
 }
