@@ -7,58 +7,38 @@
         "data_Prestec": "2025-02-02"
     },
     {
-        "data_devolucio": "2025-02-22",
-        "id_llibre": [
-            "ISB7788",
-            "ISB1329"
-        ],
-        "id_user": "4564845L",
-        "actiu": false,
-        "data_Prestec": "2025-01-22",
-        "id_prestec": "sade455"
-    },
-    {
-        "data_devolucio": "2025-03-04",
-        "id_llibre": [
+        "id_Prestec": "PRESTEC3",
+        "data_Devolucio": "2025-03-04",
+        "id_User": "4564845L",
+        "id_Llibre": [
             "ISB1010",
             "ISB1212",
             "ISB7878",
             "ISB1141",
-            "ISB 656",
-            ""
+            "ISB 656"
         ],
-        "data_prestec": "2025-02-04",
-        "id_user": "4564845L",
         "actiu": true,
-        "id_prestec": "sade456"
+        "data_Prestec": "2025-02-04"
     },
     {
-        "data_devolucio": "2025-03-25",
-        "id_llibre": [
+        "id_Prestec": "PRESTEC4",
+        "data_Devolucio": "2025-03-25",
+        "id_User": "4564845L",
+        "id_Llibre": [
             "ISB4549",
             "ISB1212",
             "ISB1616",
             "ISB741"
         ],
-        "data_prestec": "2025-02-25",
-        "id_user": "4564845L",
         "actiu": true,
-        "id_prestec": "sade457"
+        "data_Prestec": "2025-02-25"
     },
     {
-        "data_devolucio": "2025-02-05",
-        "id_llibre": ["ISB118"],
-        "data_prestec": "2025-01-05",
-        "id_user": "12345123A",
+        "id_Prestec": "PRESTEC5",
+        "data_Devolucio": "2025-02-05",
+        "id_User": "12345123A",
+        "id_Llibre": ["ISB118"],
         "actiu": true,
-        "id_prestec": "sade458"
-    },
-    {
-        "id_Prestec": "PRESTEC6",
-        "data_Devolucio": "2024-02-03",
-        "id_User": "4564845L",
-        "id_Llibre": ["ISB4121"],
-        "actiu": false,
-        "data_Prestec": "2024-01-03"
+        "data_Prestec": "2025-01-05"
     }
 ]
