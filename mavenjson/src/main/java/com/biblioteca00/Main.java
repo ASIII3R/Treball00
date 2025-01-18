@@ -779,7 +779,7 @@ public class Main {
                 case "3":
                 case "llistar préstecs actius":
                 case "llistar prestecs actius":
-                    System.out.println("Aquí anirà la funció per llistar préstecs actius"); //Funció per llistar préstecs actius
+                    llistarPrestecsActius(); //Funció per llistar préstecs actius
                     break;
                 case "4":
                 case "llistar préstecs fora de termini":
@@ -799,10 +799,42 @@ public class Main {
         try {
             String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
             JSONArray prestecsArray = new JSONArray(content);
-            System.out.println("Llistat de préstecs:");
+            System.out.println("\n---------------------------------------- LLISTAT DE PRÉSTECS ---------------------------------------------");
+            System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", "ID Préstec", "Data Devolució","ID User","ID Llibre","Actiu","Préstec");
+            System.out.println("------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < prestecsArray.length(); i++) {
                 JSONObject prestec = prestecsArray.getJSONObject(i);
-                System.out.println(prestec.toString(4)); // Imprime con formato
+                System.out.printf("%-15s %-20s %-15s %-60s %-20s\n",// Imprime con formato
+                    prestec.getString("id_Prestec"),
+                    prestec.getString("data_Devolucio"),
+                    prestec.getString("id_User"),
+                    prestec.getJSONArray("id_Llibre").toString(),
+                    prestec.getBoolean("actiu"),
+                    prestec.getString("data_Prestec"));
+            }
+        } catch (IOException | JSONException e) {
+            System.out.println("Error al llegir els préstecs: " + e.getMessage() + "\n");
+        }
+    }
+    public static void llistarPrestecsActius(){
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+            JSONArray prestecsArray = new JSONArray(content);
+            System.out.println("\n-------------------------------------------- LLISTAT DE  PRÉSTECS ACTIUS ------------------------------------------------");
+            System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", "ID Préstec", "Data Devolució","ID User","ID Llibre","Actiu","Préstec");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+
+            for (int i = 0; i < prestecsArray.length(); i++) {
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                if (prestec.getBoolean("actiu")){
+                    System.out.printf("%-15s %-20s %-15s %-60s %-20s\n",// Imprime con formato
+                    prestec.getString("id_Prestec"),
+                    prestec.getString("data_Devolucio"),
+                    prestec.getString("id_User"),
+                    prestec.getJSONArray("id_Llibre").toString(),
+                    prestec.getBoolean("actiu"),
+                    prestec.getString("data_Prestec"));
+                }
             }
         } catch (IOException | JSONException e) {
             System.out.println("Error al llegir els préstecs: " + e.getMessage() + "\n");
