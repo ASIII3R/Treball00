@@ -90,7 +90,7 @@ public class Main {
                     break;
                 case "3":
                 case "eliminar":
-                    System.out.println("Aquí anirà la funció per eliminar un llibre");
+                    eliminarLlibre();
                     break;
                 case "4":
                 case "llistar":
@@ -103,7 +103,47 @@ public class Main {
             }
         }
     }
+    public static void eliminarLlibre(){
+        String llibresFilePath = "mavenjson/data/llibres.json";
+        Scanner scanner = new Scanner(System.in);
 
+        try(FileReader leer = new FileReader(llibresFilePath)){
+            StringBuilder jsoncontenido = new StringBuilder();
+            int i;
+            while ((i=leer.read())!= -1){
+                jsoncontenido.append((char)i);
+            }
+            JSONObject llibres = new JSONObject(jsoncontenido.toString());
+
+            System.out.println("Introdueix el ID del llibre a eliminar: ");
+            String idEliminar = scanner.nextLine();
+
+            Iterator<String> keys = llibres.keys();
+            boolean llibreEliminat = false;
+
+            while(keys.hasNext()){
+                String key = keys.next();
+                JSONObject llibre = llibres.getJSONObject(key);
+
+                if (llibre.getString("ID").equals(idEliminar)){
+                    llibres.remove(key);
+                    llibreEliminat = true;
+                    break;
+                }
+            }
+            if (llibreEliminat){
+                FileWriter writer = new FileWriter(llibresFilePath);
+                writer.write(llibres.toString(4));
+                writer.close();
+                System.out.println("Llibre eliminat correctament");
+            }else{
+                System.out.println("No s'ha trobat l'ID del llibre demanat");
+            }
+
+        } catch (Exception e){
+            System.out.println("Error: "+e.getMessage());
+        }
+    }
     public static void menuLlistarLlibres(Scanner scanner) {
         while (true) {
             System.out.println(
