@@ -665,7 +665,7 @@ public class Main {
     }
 
     // Listar préstamos en el JSON
-    public static void llistarPrestecs() {
+    public static void llistarPrestecsJSON() {
         try {
             String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
             JSONArray prestecsArray = new JSONArray(content);
@@ -1005,4 +1005,47 @@ public class Main {
         }
     }
 
+
+    public static void llistarPrestecs() {
+        try {
+            // Leer el archivo JSON de los préstamos
+            File file = new File("mavenjson/data/prestecs.json");
+            
+            // Si el archivo existe y no está vacío
+            if (file.exists() && file.length() > 0) {
+                String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+                
+                JSONArray prestecsArray = new JSONArray(content);
+                
+                // Mostrar los préstamos en formato de tabla
+                if (prestecsArray.length() > 0) {
+                    System.out.println("\n------------------------------------- Llistat de préstecs -------------------------------------");
+                    // Imprimir el encabezado de la tabla
+                    System.out.printf("%-15s%-15s%-25s%-20s%-20s\n", "ID Préstec", "ID Usuari", "Libros en préstamo", "Fecha de préstamo", "Fecha de devolución");
+                    System.out.println("-----------------------------------------------------------------------------------------------");
+
+                    // Imprimir los datos de cada préstamo
+                    for (int i = 0; i < prestecsArray.length(); i++) {
+                        JSONObject prestec = prestecsArray.getJSONObject(i);
+                        
+                        // Extraer los datos de cada préstamo
+                        String idPrestec = prestec.getString("id_Prestec");
+                        String idUser = prestec.getString("id_User");
+                        String libros = prestec.getJSONArray("id_Llibre").toString();
+                        String fechaPrestec = prestec.getString("data_Prestec");
+                        String fechaDevolucio = prestec.getString("data_Devolucio");
+                        
+                        // Mostrar los datos en formato de tabla
+                        System.out.printf("%-15s%-15s%-25s%-20s%-20s\n", idPrestec, idUser, libros, fechaPrestec, fechaDevolucio);
+                    }
+                } else {
+                    System.out.println("No hi ha préstecs registrats.");
+                }
+            } else {
+                System.out.println("El fitxer de préstecs està buit o no existeix.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al llegir el fitxer de préstecs: " + e.getMessage());
+        }
+    }
 }

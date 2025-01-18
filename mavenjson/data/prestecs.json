@@ -1,14 +1,10 @@
 [
     {
-        "data_devolucio": "2025-01-15",
-        "id_llibre": [
-            "ISB8888",
-            "ISB8301"
-        ],
-        "id_user": "12345123A",
-        "actiu": true,
-        "data_Prestec": "2024-12-15",
-        "id_prestec": "sade454"
+        "id_Prestec": "PRESTEC1",
+        "data_Devolucio": "2025-03-02",
+        "id_User": "45447487L",
+        "id_Llibre": ["ISB454"],
+        "data_Prestec": "2025-02-02"
     },
     {
         "data_devolucio": "2025-02-22",
