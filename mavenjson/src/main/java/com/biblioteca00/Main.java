@@ -120,19 +120,19 @@ public class Main {
                     break;
                 case "2":
                 case "modificar":
-                    modificarUsuaris(scanner);
+                    modificarUsuaris(scanner); //Modificar Usuari
                     break;
                 case "3":
                 case "eliminar":
-                    eliminarUsuari(scanner);
+                    eliminarUsuari(scanner); //Eliminar Usuari
                     break;
                 case "4":
                 case "llistar":
-                    menuLlistarUsuaris(scanner);
+                    menuLlistarUsuaris(scanner); //Menu Llistar Usuaris
                     break;
                 case "0":
                 case "tornar":
-                case "tornar al menú principal":
+                case "tornar al menú principal": //Tornar al menú anterior
                     return;
             }
         }
@@ -140,7 +140,8 @@ public class Main {
     public static void modificarUsuaris (Scanner scanner){
         try {
             System.out.println("Inserta l'id de l'usuari que vulguis modificar");
-            String idBuscar = scanner.nextLine();
+            //Es crea una variable per poder comparar i es llegeix usuaris.json
+            String idBuscar = scanner.nextLine(); 
             String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
             JSONArray usuarisArray = new JSONArray(contenido);
             boolean trobat = false;
