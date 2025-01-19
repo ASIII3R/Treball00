@@ -9,8 +9,6 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -82,27 +80,26 @@ public class Main {
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
 
-            // Afegir llibre
             switch (opc) {
                 case "1":
                 case "afegir":
-                    afegirLlibre(scanner);
+                    afegirLlibre(scanner);             // Afegir llibre
                     break;
                 case "2":
                 case "modificar":
-                    modificarLlibre(scanner);
+                    modificarLlibre(scanner);          //Modificar llibre 
                     break;
                 case "3":
                 case "eliminar":
-                    eliminarLlibre();
+                    eliminarLlibre();                  //Eliminar Llibre
                     break;
                 case "4":
                 case "llistar":
-                    menuLlistarLlibres(scanner);
+                    menuLlistarLlibres(scanner);       //Menu Llistar Llibres
                     break;
                 case "0":
                 case "tornar":
-                case "tornar al menú principal":
+                case "tornar al menú principal":       //Tornar al menú principal
                     return;
             }
         }
@@ -119,11 +116,11 @@ public class Main {
             switch (opc) {
                 case "1":
                 case "afegir":
-                    afegirUsuari(scanner);
+                    afegirUsuari(scanner); //Afegir usuari
                     break;
                 case "2":
                 case "modificar":
-                    System.out.println("Aquí anirà la funció per modificar usuaris");
+                    modificarUsuaris(scanner);
                     break;
                 case "3":
                 case "eliminar":
@@ -138,6 +135,66 @@ public class Main {
                 case "tornar al menú principal":
                     return;
             }
+        }
+    }
+    public static void modificarUsuaris (Scanner scanner){
+        try {
+            System.out.println("Inserta l'id de l'usuari que vulguis modificar");
+            String idBuscar = scanner.nextLine();
+            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+            JSONArray usuarisArray = new JSONArray(contenido);
+            boolean trobat = false;
+            
+            for (int i=0; i<usuarisArray.length();i++){
+                JSONObject usuari = usuarisArray.getJSONObject(i);
+                if (usuari.getString("id").equals(idBuscar)){
+                    trobat = true;
+                    System.out.println("Que vols cambiar?\n1)Telèfon\n2)Nom\n3)Cognom\n4)ID\n0)Tornar");
+                String opcio = scanner.nextLine().toLowerCase();
+                switch(opcio){
+                    case"telèfon":
+                    case"1":
+                    case"telefon":
+                        System.out.print("Inserta el nou telèfon: ");
+                        String nouTelefon = scanner.nextLine();
+                        usuari.put("telefon",nouTelefon);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                        usuarisArray.toString(4).getBytes());
+                        break;
+                    case"nom":
+                    case"2":
+                        System.out.print("Inserta el nou nom: ");
+                        String nouNom = scanner.nextLine();
+                        usuari.put("nom",nouNom);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                        usuarisArray.toString(4).getBytes());
+                        break;
+                    case"cognom":
+                    case"3":
+                        System.out.print("Inserta el nou cognom: ");
+                        String nouCognom = scanner.nextLine();
+                        usuari.put("cognom",nouCognom);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                        usuarisArray.toString(4).getBytes());
+                        break;
+                    case"id":
+                    case"4":
+                        System.out.print("Inserta el nou id: ");
+                        String nouId = scanner.nextLine();
+                        usuari.put("id",nouId);
+                        Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                        usuarisArray.toString(4).getBytes());
+                        break;
+                }
+                }
+            }
+            if (!trobat){
+                System.out.println("No s'ha trobat l'usuari");
+            }
+
+
+        } catch (Exception e) {
+            System.out.println("Error: "+ e.getMessage());
         }
     }
 
