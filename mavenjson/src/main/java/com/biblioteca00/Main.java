@@ -101,6 +101,8 @@ public class Main {
                 case "tornar":
                 case "tornar al menú principal":       //Tornar al menú principal
                     return;
+                default:
+                    System.out.println("Opció no válida");
             }
         }
     }
@@ -113,27 +115,30 @@ public class Main {
             String opc = scanner.nextLine().toLowerCase();
 
             // Users
-            switch (opc) {
-                case "1":
-                case "afegir":
-                    afegirUsuari(scanner); //Afegir usuari
-                    break;
-                case "2":
-                case "modificar":
-                    modificarUsuaris(scanner); //Modificar usuari
-                    break;
-                case "3":
-                case "eliminar":
-                    eliminarUsuari(scanner); //Eliminar usuari
-                    break;
-                case "4":
-                case "llistar":
-                    menuLlistarUsuaris(scanner); // Menu Llistar Usuaris
-                    break;
-                case "0":
-                case "tornar":
-                case "tornar al menú principal":
-                    return;
+                switch (opc) {
+                    case "1":
+                    case "afegir":
+                        afegirUsuari(scanner); //Afegir usuari
+                        break;
+                    case "2":
+                    case "modificar":
+                        modificarUsuaris(scanner); //Modificar usuari
+                        break;
+                    case "3":
+                    case "eliminar":
+                        eliminarUsuari(scanner); //Eliminar usuari
+                        break;
+                    case "4":
+                    case "llistar":
+                        menuLlistarUsuaris(scanner); // Menu Llistar Usuaris
+                        break;
+                    case "0":
+                    case "tornar":
+                    case "tornar al menú principal":
+                        return;
+                    default:
+                        System.out.println("Opció no vàlida");
+                        break;
             }
         }
     }
