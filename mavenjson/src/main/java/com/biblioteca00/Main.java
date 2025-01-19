@@ -79,7 +79,7 @@ public class Main {
                         System.out.println("aquí anirà la funció per afegir usuaris");
                     case "2":
                     case "modificar":
-                        modificarUsuaris(args);
+                        modificarUsuaris();
                         break;
                     case"3":
                     case"eliminar":
@@ -105,7 +105,6 @@ public class Main {
                                 System.out.println("Aquí es tornarà");
                                 
                         }
-                        break;
                 }
 
             case "3":
@@ -231,7 +230,7 @@ public class Main {
             System.out.println("Error: "+e.getMessage());//COMPROBAR PORQUÉ DA ERROR LO QUE DEBERIA ESTAR BIEN
         }
     }
-    public static void modificarUsuaris(String[] args) {
+    public static void modificarUsuaris() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Introdueix l'id de l'usuari que vols modificar");
@@ -251,7 +250,7 @@ public class Main {
                 
             }
             if (idTrobat) {
-                System.err.println("Quina dada vols modificar de l'usuari: \n1) ID\n2) Nom\n3) Cognom\n4) Telefon");
+                System.out.println("Quina dada vols modificar de l'usuari: \n1) ID\n2) Nom\n3) Cognom\n4) Telefon");
 
                 String opcio = scanner.nextLine().toLowerCase();
                 switch(opcio){
@@ -276,7 +275,7 @@ public class Main {
                     case "cognom":
                     case "3":
                     case"COGNOM":
-                        System.out.print("Inserta el nou ID: ");
+                        System.out.print("Inserta el nou cognom: ");
                         String nouCognom = scanner.nextLine();
                         usuari.put("id",nouCognom);
                         Files.write(Paths.get("mavenjson/data/usuaris.json"),usuarisArray.toString().getBytes());
