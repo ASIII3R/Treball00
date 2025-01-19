@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -68,7 +66,8 @@ public class Main {
 
     public static void menuGestióLlibres(Scanner scanner) {
         while (true) {
-            System.out.println(
+            try {
+                System.out.println(
                     "Gestió de Llibres\n1. Afegir\n2. Modificar\n3. Eliminar\n4.Llistar\n0. Tornar al menú principal");
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
@@ -96,12 +95,18 @@ public class Main {
                 case "tornar al menú principal":
                     return;
             }
+                
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            
         }
     }
 
     public static void menuLlistarLlibres(Scanner scanner) {
         while (true) {
-            System.out.println(
+            try {
+                System.out.println(
                     "Llistar llibres\n1. Tots\n2.En préstec\n3.Per autor\n4.Cercar títol\n0.Tornar al menú de llibres");
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
@@ -127,6 +132,10 @@ public class Main {
                 case "tornar":
                     return;
             }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            
         }
     }
 
