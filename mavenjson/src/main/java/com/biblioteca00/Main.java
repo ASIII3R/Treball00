@@ -120,15 +120,15 @@ public class Main {
                     break;
                 case "2":
                 case "modificar":
-                    modificarUsuaris(scanner);
+                    modificarUsuaris(scanner); //Modificar usuari
                     break;
                 case "3":
                 case "eliminar":
-                    eliminarUsuari(scanner);
+                    eliminarUsuari(scanner); //Eliminar usuari
                     break;
                 case "4":
                 case "llistar":
-                    menuLlistarUsuaris(scanner);
+                    menuLlistarUsuaris(scanner); // Menu Llistar Usuaris
                     break;
                 case "0":
                 case "tornar":
@@ -1024,7 +1024,7 @@ public class Main {
             System.out.println("\n-------------------------------------------- LLISTAT DE  PRÉSTECS ACTIUS ------------------------------------------------");
             System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", "ID Préstec", "Data Devolució","ID User","ID Llibre","Actiu","Préstec");
             System.out.println("-------------------------------------------------------------------------------------------------------------------------");
-
+            // Print del llistat de prestecs per usuari
             for (int i = 0; i < prestecsArray.length(); i++) {
                 JSONObject prestec = prestecsArray.getJSONObject(i);
                 if (prestec.getString("id_User").equals(userId)){
@@ -1107,6 +1107,7 @@ public class Main {
                         trobat = true;
                         System.out.print("\nQue vols cambiar?\n1)Autor\n2)Nom\n0)Tornar\nOpció:");
                         String opcio = scanner.nextLine().toLowerCase();
+                        //En cas de
                         switch (opcio) {
                             case "autor":
                             case "1":
@@ -1129,9 +1130,10 @@ public class Main {
                     }
                 }
             }
+            //Si no es troba
             if (!trobat) {
                 System.out.println("No s'ha trobat " + nomBuscar + "\n");
-            }
+            }//Error
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + "\n");
         }
@@ -1149,12 +1151,12 @@ public class Main {
             System.out.println("\n-------- AFEGIR USUARI --------");
             System.out.print("Introdueix el teu DNI: ");
             String id = scanner.nextLine();
-
+            //Crida a la funcio idExist 
             if (idExiste(usuArray, id)) {
                 System.out.println("Error: El DNI del user ja existeix.\n");
                 return;
             }
-
+            //Scanner de dades
             System.out.print("Introdueix el teu Nom: ");
             String nom = scanner.nextLine();
 
@@ -1163,14 +1165,14 @@ public class Main {
 
             System.out.print("Introdueix el teu numero de telefon: ");
             String telefon = scanner.nextLine();
-
+            //Crida a la funcio telefon valid
             if (telefonValid(telefon)) {
                 System.out.println("Telèfon valid.\n");
-            } else {
+            } else {  //Retorna error amb els parametres 
                 System.out.println("Telèfon invalid. Ha de ser nùmeric y amb 9 dígits.\n");
                 return;
             }
-
+            //Afegeix usuari
             JSONObject newUser = new JSONObject();
             newUser.put("id", id);
             newUser.put("nom", nom);
@@ -1192,7 +1194,7 @@ public class Main {
         }
     }
 
-    // comprovar telefono
+    // Comprovar el telefon
     public static boolean telefonValid(String telefon) {
         return telefon.matches("\\d{9}");
     }
@@ -1222,6 +1224,7 @@ public class Main {
             Boolean usuariEliminat = false;
             System.out.print("Introdueix el ID de l'usuari a eliminar: ");
             String idEliminar = scanner.nextLine();
+            //Verificar si es troba entre els usuaris
             for (int i = 0; i < usuArray.length(); i++) {
                 JSONObject usuari = usuArray.getJSONObject(i);
                 if (usuari.getString("id").equals(idEliminar)) {
@@ -1230,9 +1233,11 @@ public class Main {
                     break;
                 }
             }
+            //Si no es troba l'ID dins dels usuaris
             if(!usuariEliminat){
                 System.out.println("No s'ha trobat l'id demanat\n");
             }
+            //Eliminar dels usuaris
             FileWriter writer = new FileWriter("mavenjson/data/usuaris.json");
             writer.write(usuArray.toString(4));
             writer.close();
@@ -1258,10 +1263,13 @@ public class Main {
 
             JSONObject llibres = new JSONObject(jsoncontenido.toString());
 
+            // Print de la taula de tots els llibres
+
             System.out.println("\n------------- LLISTAT DE TOTS ELS LLIBRES -------------------");
             System.out.printf("%-10s %-25s %-25s\n", "ID", "Nom", "Autor");
             System.out.println("-------------------------------------------------------------");
 
+            //Obtenim les dades dels llibres i les printem
             @SuppressWarnings("unchecked")
             Iterator<String> keys = llibres.keys();
             while (keys.hasNext()) {
@@ -1280,7 +1288,7 @@ public class Main {
         }
     }
 
-    // Buscar libro por titulo
+    // Buscar llibre per títol
     public static void buscarLlibrePorTitol(Scanner scanner) {
         try {
             // Leer el archivo JSON de los libros
@@ -1297,7 +1305,7 @@ public class Main {
                     return;
                 }
             }
-
+            //Scanner del llibre a buscar
             System.out.println("\n-------- BUSCAR LLIBRE --------");
             System.out.print("Introdueix el títol del llibre: ");
             String titolLlibre = scanner.nextLine().trim().toLowerCase();
@@ -1364,7 +1372,7 @@ public class Main {
                     break;
                 }
             }
-
+            //Si no es compleix la funcio de llibreEncontrat
             if (!llibreEncontrat) {
                 System.out.println("No s'ha trobat cap llibre amb el títol: " + titolLlibre + "\n");
             }
@@ -1416,15 +1424,16 @@ public class Main {
                 } else {
                     System.out.println("No hi ha préstecs registrats.");
                 }
-            } else {
+            } else { //Si no existeix
                 System.out.println("El fitxer de préstecs està buit o no existeix.");
             }
-        } catch (Exception e) {
+        } catch (Exception e) { //Error
             System.out.println("Error al llegir el fitxer de préstecs: " + e.getMessage());
         }
     }
 
     public static boolean eliminarPrestec() throws IOException {
+        //Scanner del prestec a eliminar
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("\n-------- ELIMINAR PRÉSTEC --------");
@@ -1512,7 +1521,7 @@ public class Main {
                 }
             }
 
-            // tabla
+            // Print de la taula
             System.out.println("\n----------------- LLISTAT DE LLIBRES PER AUTOR ----------------");
             System.out.printf("%-15s %-30s %-15s\n", "ID", "Nom", "Autor");
             System.out.println("---------------------------------------------------------------");
