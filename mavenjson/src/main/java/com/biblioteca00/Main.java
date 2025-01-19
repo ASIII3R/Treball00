@@ -75,7 +75,8 @@ public class Main {
     // menús biblioteca
     public static void menuGestióLlibres(Scanner scanner) {
         while (true) {
-            System.out.println(
+            try {
+                System.out.println(
                     "\n--- Gestió de Llibres ---\n1. Afegir\n2. Modificar\n3. Eliminar\n4. Llistar\n0. Tornar al menú principal");
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
@@ -102,12 +103,18 @@ public class Main {
                 case "tornar al menú principal":       //Tornar al menú principal
                     return;
             }
+                
+            } catch (Exception e) {
+                System.out.println("Error: "+ e.getMessage());
+            }
+            
         }
     }
 
     public static void menuGestióUsuaris(Scanner scanner) {
         while (true) {
-            System.out.println(
+            try {
+                System.out.println(
                     "\n--- Gestió de Usuaris---\n1. Afegir\n2. Modificar\n3. Eliminar\n4. Llistar\n0. Tornar al menú principal");
             System.out.print("Escull una opció:");
             String opc = scanner.nextLine().toLowerCase();
@@ -135,6 +142,11 @@ public class Main {
                 case "tornar al menú principal":
                     return;
             }
+                
+            } catch (Exception e) {
+                System.out.println("Error: "+ e.getMessage());
+            }
+            
         }
     }
     public static void modificarUsuaris (Scanner scanner){
