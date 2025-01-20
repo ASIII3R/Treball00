@@ -41,5 +41,13 @@
         "id_Llibre": ["ISB118"],
         "actiu": true,
         "data_Prestec": "2024-12-05"
+    },
+    {
+        "id_Prestec": "PRESTEC6",
+        "data_Devolucio": "2025-06-04",
+        "id_User": "33333333G",
+        "id_Llibre": ["ISB444"],
+        "actiu": true,
+        "data_Prestec": "2025-05-04"
     }
 ]
