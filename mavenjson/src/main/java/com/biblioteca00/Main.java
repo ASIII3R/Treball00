@@ -166,20 +166,21 @@ public class Main {
             // Es crea una variable per poder comparar i es llegeix usuaris.json
             String idBuscar = scanner.nextLine();
             
-            // Aquí se debe usar la variable 'filePathUsuaris', no la cadena literal
+            // Leer el archivo JSON
             String contenido = new String(Files.readAllBytes(Paths.get(filePath))); 
             JSONArray usuarisArray = new JSONArray(contenido);
             
             boolean trobat = false;
-
+    
             // Buscar l'usuari per la seva ID
             for (int i = 0; i < usuarisArray.length(); i++) {
                 JSONObject usuari = usuarisArray.getJSONObject(i);
                 if (usuari.getString("id").equals(idBuscar)) {
                     trobat = true;
-                    System.out.println("Que vols cambiar?\n1)Telèfon\n2)Nom\n3)Cognom\n4)ID\n0)Tornar");
+                    System.out.println("\n ----- MODIFICAR USER ----- ");
+                    System.out.println("\nQue vols cambiar?\n1)Telèfon\n2)Nom\n3)Cognom\n4)ID\n0)Tornar");
                     String opcio = scanner.nextLine().toLowerCase();
-
+    
                     // Selecció de que es vol modificar
                     switch (opcio) {
                         case "telèfon":
@@ -188,46 +189,49 @@ public class Main {
                             System.out.print("Inserta el nou telèfon: ");
                             String nouTelefon = scanner.nextLine();
                             usuari.put("telefon", nouTelefon);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
                         case "nom":
                         case "2":
                             System.out.print("Inserta el nou nom: ");
                             String nouNom = scanner.nextLine();
                             usuari.put("nom", nouNom);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
                         case "cognom":
                         case "3":
                             System.out.print("Inserta el nou cognom: ");
                             String nouCognom = scanner.nextLine();
                             usuari.put("cognom", nouCognom);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
                         case "id":
                         case "4":
                             System.out.print("Inserta el nou id: ");
                             String nouId = scanner.nextLine();
                             usuari.put("id", nouId);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
+                        case "0":
+                            System.out.println("Tornant al menú anterior.");
+                            return;  // Si se elige la opción 0, sale del método.
+                        default:
+                            System.out.println("Opció no vàlida.");
+                            return;
                     }
+    
+                    // Una vez se haya realizado el cambio, escribir el archivo con la actualización
+                    Files.write(Paths.get(filePath), usuarisArray.toString(4).getBytes());
+                    System.out.println("Usuari modificat correctament!");
+                    break;
                 }
             }
             // Si no es troba l'usuari mostra un missatge de que no s'ha trobat
             if (!trobat) {
                 System.out.println("No s'ha trobat l'usuari");
             }
-
-            // En cas d'error:
+    
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
+    
 
     public static void menuLlistarUsuaris(Scanner scanner) {
         while (true) {
