@@ -188,7 +188,7 @@ public class Main {
                             System.out.print("Inserta el nou telèfon: ");
                             String nouTelefon = scanner.nextLine();
                             usuari.put("telefon", nouTelefon);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "nom":
@@ -196,7 +196,7 @@ public class Main {
                             System.out.print("Inserta el nou nom: ");
                             String nouNom = scanner.nextLine();
                             usuari.put("nom", nouNom);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "cognom":
@@ -204,7 +204,7 @@ public class Main {
                             System.out.print("Inserta el nou cognom: ");
                             String nouCognom = scanner.nextLine();
                             usuari.put("cognom", nouCognom);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "id":
@@ -212,7 +212,7 @@ public class Main {
                             System.out.print("Inserta el nou id: ");
                             String nouId = scanner.nextLine();
                             usuari.put("id", nouId);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                     }
