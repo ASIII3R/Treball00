@@ -189,32 +189,24 @@ public class Main {
                             System.out.print("Inserta el nou telèfon: ");
                             String nouTelefon = scanner.nextLine();
                             usuari.put("telefon", nouTelefon);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
                         case "nom":
                         case "2":
                             System.out.print("Inserta el nou nom: ");
                             String nouNom = scanner.nextLine();
                             usuari.put("nom", nouNom);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
                         case "cognom":
                         case "3":
                             System.out.print("Inserta el nou cognom: ");
                             String nouCognom = scanner.nextLine();
                             usuari.put("cognom", nouCognom);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
                         case "id":
                         case "4":
                             System.out.print("Inserta el nou id: ");
                             String nouId = scanner.nextLine();
                             usuari.put("id", nouId);
-                            Files.write(Paths.get("filePathUsuaris"),
-                                    usuarisArray.toString(4).getBytes());
                             break;
                         case "0":
                             System.out.println("Tornant al menú anterior.");
