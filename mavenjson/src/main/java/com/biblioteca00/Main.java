@@ -165,7 +165,7 @@ public class Main {
             System.out.println("Inserta l'id de l'usuari que vulguis modificar");
             // Es crea una variable per poder comparar i es llegeix usuaris.json
             String idBuscar = scanner.nextLine();
-            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+            String contenido = new String(Files.readAllBytes(Paths.get("filePathUsuaris")));
             JSONArray usuarisArray = new JSONArray(contenido);
             boolean trobat = false;
 
@@ -185,7 +185,7 @@ public class Main {
                             System.out.print("Inserta el nou telèfon: ");
                             String nouTelefon = scanner.nextLine();
                             usuari.put("telefon", nouTelefon);
-                            Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "nom":
@@ -193,7 +193,7 @@ public class Main {
                             System.out.print("Inserta el nou nom: ");
                             String nouNom = scanner.nextLine();
                             usuari.put("nom", nouNom);
-                            Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "cognom":
@@ -201,7 +201,7 @@ public class Main {
                             System.out.print("Inserta el nou cognom: ");
                             String nouCognom = scanner.nextLine();
                             usuari.put("cognom", nouCognom);
-                            Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "id":
@@ -209,7 +209,7 @@ public class Main {
                             System.out.print("Inserta el nou id: ");
                             String nouId = scanner.nextLine();
                             usuari.put("id", nouId);
-                            Files.write(Paths.get("mavenjson/data/usuaris.json"),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                     }
@@ -1085,8 +1085,7 @@ public class Main {
     
 
     public static void llistarPrestecsForaTermini() {
-        // llegir préstecs.json
-        String prestecsFilePath = "mavenjson/data/prestecs.json";
+        // leer préstamo utilizando la ruta predeterminada
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date avui = new Date();
 
@@ -1127,33 +1126,50 @@ public class Main {
     }
 
     public static void llistarPrestecsUsuari() {
-        String prestecsFilePath = "mavenjson/data/prestecs.json";
-
+        // leer préstamo utilizando la ruta predeterminada
         Scanner scanner = new Scanner(System.in);
         System.out.print("Introdueix l'id de l'usuari: ");
         String userId = scanner.nextLine();
     
         try {
-            String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
-            JSONArray prestecsArray = new JSONArray(content);
-            System.out.println(
-                    "\n-------------------------------------------- LLISTAT DE  PRÉSTECS ACTIUS ------------------------------------------------");
-            System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", "ID Préstec", "Data Devolució", "ID User", "ID Llibre",
-                    "Actiu", "Préstec");
-            System.out.println(
-                    "-------------------------------------------------------------------------------------------------------------------------");
-            // Print del llistat de prestecs per usuari
-            for (int i = 0; i < prestecsArray.length(); i++) {
-                JSONObject prestec = prestecsArray.getJSONObject(i);
-                if (prestec.getString("id_User").equals(userId)) {
-                    System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", // Imprime con formato
-                            prestec.getString("id_Prestec"),
-                            prestec.getString("data_Devolucio"),
-                            prestec.getString("id_User"),
-                            prestec.getJSONArray("id_Llibre").toString(),
-                            prestec.getBoolean("actiu"),
-                            prestec.getString("data_Prestec"));
+            // Leer el archivo JSON de los préstamos utilizando la ruta centralizada
+            File file = new File(filePathPrestecs); // Usar la ruta desde la variable estática
+    
+            // Comprobar si el archivo existe y tiene contenido
+            if (file.exists() && file.length() > 0) {
+                // Leer el contenido del archivo JSON
+                String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+                JSONArray prestecsArray = new JSONArray(content);
+    
+                System.out.println(
+                        "\n-------------------------------------------- LLISTAT DE  PRÉSTECS ACTIUS ------------------------------------------------");
+                System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", "ID Préstec", "Data Devolució", "ID User", "ID Llibre",
+                        "Actiu", "Préstec");
+                System.out.println(
+                        "-------------------------------------------------------------------------------------------------------------------------");
+    
+                // Imprimir el listado de préstamos por usuario
+                boolean found = false; // Bandera para verificar si se encontró al menos un préstamo
+                for (int i = 0; i < prestecsArray.length(); i++) {
+                    JSONObject prestec = prestecsArray.getJSONObject(i);
+                    if (prestec.getString("id_User").equals(userId)) {
+                        found = true;
+                        System.out.printf("%-15s %-20s %-15s %-60s %-20s\n", // Imprime con formato
+                                prestec.getString("id_Prestec"),
+                                prestec.getString("data_Devolucio"),
+                                prestec.getString("id_User"),
+                                prestec.getJSONArray("id_Llibre").toString(),
+                                prestec.getBoolean("actiu"),
+                                prestec.getString("data_Prestec"));
+                    }
                 }
+    
+                // Si no se encontraron préstamos para el usuario
+                if (!found) {
+                    System.out.println("No s'han trobat préstecs per aquest usuari.");
+                }
+            } else {
+                System.out.println("El fitxer de préstecs no existeix o està buit.");
             }
         } catch (IOException | JSONException e) {
             System.out.println("Error al llegir els préstecs: " + e.getMessage() + "\n");
@@ -1164,8 +1180,15 @@ public class Main {
     // Método para agregar un libro
     public static void afegirLlibre(Scanner scanner) {
         try {
-            // Leer los datos existentes
-            String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
+            // Verificar que el archivo existe
+            File file = new File(filePathLlibres);
+            if (!file.exists()) {
+                System.out.println("El archivo 'llibres.json' no existe en la ruta: " + filePathLlibres);
+                return;
+            }
+
+            // Leer los datos existentes utilizando la ruta especificada
+            String content = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
             JSONObject llibresObj = new JSONObject(content);
 
             System.out.println("\n-------- AFEGIR LLIBRE --------");
@@ -1197,7 +1220,7 @@ public class Main {
             llibresObj.put(String.valueOf(novaKey), llibreJson);
 
             // Agregar el nuevo libro al array
-            Files.write(Paths.get("mavenjson/data/llibres.json"), llibresObj.toString(4).getBytes());
+            Files.write(Paths.get(filePathLlibres), llibresObj.toString(4).getBytes());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -1209,7 +1232,7 @@ public class Main {
         try {
             System.out.print("Inserta el nom del llibre que vulguis modificar: ");
             String nomBuscar = scanner.nextLine().toLowerCase();
-            String contenido = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
+            String contenido = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
             JSONObject objJson = new JSONObject(contenido);
 
             // AGARRAR LAS CLAVES Y ITERARLAS
@@ -1234,14 +1257,14 @@ public class Main {
                                 System.out.println("Inserta el nou nom de l'autor:");
                                 String nouAutor = scanner.nextLine();
                                 llibre.put("autor", nouAutor);
-                                Files.write(Paths.get("mavenjson/data/llibres.json"), objJson.toString(4).getBytes());
+                                Files.write(Paths.get(filePathLlibres), objJson.toString(4).getBytes());
                                 break;
                             case "nom":
                             case "2":
                                 System.out.println("Inserta el nou nom del llibre:");
                                 String nouLlibre = scanner.nextLine();
                                 ((JSONObject) valor).put("nom", nouLlibre);
-                                Files.write(Paths.get("mavenjson/data/llibres.json"), objJson.toString(4).getBytes());
+                                Files.write(Paths.get(filePathLlibres), objJson.toString(4).getBytes());
                                 break;
                             case "tornar":
                             case "0":
@@ -1264,11 +1287,10 @@ public class Main {
         File file = new File(filePathUsuaris);
 
         JSONArray usuArray = new JSONArray();
-        File file = new File("mavenjson/data/usuaris.json");
 
         try {
             if (file.exists() && file.length() > 0) {
-                String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/usuaris.json")));
+                String content = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
                 usuArray = new JSONArray(content);
             }
 
@@ -1347,7 +1369,7 @@ public class Main {
     public static void eliminarUsuari(Scanner scanner) {
         // Llegir el arxiu json
         try {
-            FileReader reader = new FileReader("mavenjson/data/usuaris.json");
+            FileReader reader = new FileReader("filePathUsuaris");
             JSONArray usuArray = new JSONArray(new JSONTokener(reader));
 
             Boolean usuariEliminat = false;
@@ -1367,7 +1389,7 @@ public class Main {
                 System.out.println("No s'ha trobat l'id demanat\n");
             }
             // Eliminar dels usuaris
-            FileWriter writer = new FileWriter("mavenjson/data/usuaris.json");
+            FileWriter writer = new FileWriter("filePathUsuaris");
             writer.write(usuArray.toString(4));
             writer.close();
 
@@ -1379,7 +1401,7 @@ public class Main {
 
     // Listar todos los libros
     public static void llistarTotsLlibres() {
-        String filePath = "mavenjson/data/llibres.json";
+        String filePath = filePathLlibres;
 
         try (FileReader leer = new FileReader(filePath)) {
             ;
@@ -1422,10 +1444,10 @@ public class Main {
         try {
             // Leer el archivo JSON de los libros
             JSONObject llibresObject = new JSONObject();
-            File fileLibros = new File("mavenjson/data/llibres.json");
+            File fileLibros = new File(filePathLlibres);
 
             if (fileLibros.exists() && fileLibros.length() > 0) {
-                String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/llibres.json")));
+                String content = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
 
                 try {
                     llibresObject = new JSONObject(content);
@@ -1460,10 +1482,10 @@ public class Main {
 
                     // Leer el archivo JSON de los préstamos
                     JSONArray prestecsArray = new JSONArray();
-                    File filePrestecs = new File("mavenjson/data/prestecs.json");
+                    File filePrestecs = new File(filePathPrestecs);
                     if (filePrestecs.exists() && filePrestecs.length() > 0) {
                         String contentPrestecs = new String(
-                                Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+                                Files.readAllBytes(Paths.get(filePathPrestecs)));
                         prestecsArray = new JSONArray(contentPrestecs);
                     }
 
@@ -1513,12 +1535,12 @@ public class Main {
 
     public static void llistarPrestecs() {
         try {
-            // Leer el archivo JSON de los préstamos
-            File file = new File("mavenjson/data/prestecs.json");
+            // Leer el archivo JSON de los préstamos utilizando la ruta predeterminada
+            File file = new File(filePathPrestecs);
 
             // Si el archivo existe y no está vacío
             if (file.exists() && file.length() > 0) {
-                String content = new String(Files.readAllBytes(Paths.get("mavenjson/data/prestecs.json")));
+                String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
 
                 JSONArray prestecsArray = new JSONArray(content);
 
@@ -1571,7 +1593,7 @@ public class Main {
 
         try {
             // Llegeix el contingut del fitxer JSON
-            String archivo = "mavenjson/data/prestecs.json";
+            String archivo = filePathPrestecs;
             String contenido = new String(Files.readAllBytes(Paths.get(archivo)));
             JSONArray prestecs = new JSONArray(contenido);
 
@@ -1605,7 +1627,7 @@ public class Main {
 
     // Método para listar los libros ordenados por autor
     public static void llistarLlibresPerAutor() {
-        String filePath = "mavenjson/data/llibres.json"; // Ruta del archivo JSON con los libros
+        String filePath = filePathLlibres; // Ruta del archivo JSON con los libros
 
         try (FileReader leer = new FileReader(filePath)) {
             // Leer el contenido del archivo JSON
