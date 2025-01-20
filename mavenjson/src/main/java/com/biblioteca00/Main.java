@@ -165,7 +165,9 @@ public class Main {
             System.out.println("Inserta l'id de l'usuari que vulguis modificar");
             // Es crea una variable per poder comparar i es llegeix usuaris.json
             String idBuscar = scanner.nextLine();
-            String contenido = new String(Files.readAllBytes(Paths.get("filePathUsuaris")));
+            
+            // Aquí se debe usar la variable 'filePathUsuaris', no la cadena literal
+            String contenido = new String(Files.readAllBytes(Paths.get(filePath))); 
             JSONArray usuarisArray = new JSONArray(contenido);
             
             boolean trobat = false;
@@ -186,7 +188,7 @@ public class Main {
                             System.out.print("Inserta el nou telèfon: ");
                             String nouTelefon = scanner.nextLine();
                             usuari.put("telefon", nouTelefon);
-                            Files.write(Paths.get(filePathUsuaris),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "nom":
@@ -194,7 +196,7 @@ public class Main {
                             System.out.print("Inserta el nou nom: ");
                             String nouNom = scanner.nextLine();
                             usuari.put("nom", nouNom);
-                            Files.write(Paths.get(filePathUsuaris),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "cognom":
@@ -202,7 +204,7 @@ public class Main {
                             System.out.print("Inserta el nou cognom: ");
                             String nouCognom = scanner.nextLine();
                             usuari.put("cognom", nouCognom);
-                            Files.write(Paths.get(filePathUsuaris),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "id":
@@ -210,7 +212,7 @@ public class Main {
                             System.out.print("Inserta el nou id: ");
                             String nouId = scanner.nextLine();
                             usuari.put("id", nouId);
-                            Files.write(Paths.get(filePathUsuaris),
+                            Files.write(Paths.get("filePathUsuaris"),
                                     usuarisArray.toString(4).getBytes());
                             break;
                     }
@@ -1371,7 +1373,9 @@ public class Main {
     public static void eliminarUsuari(Scanner scanner) {
         // Leer el archivo JSON
         try {
-            FileReader reader = new FileReader("filePathUsuaris");
+            // Usamos la ruta de archivo 'filePathUsuaris' en lugar de la cadena literal
+            String filePath = filePathUsuaris;
+            FileReader reader = new FileReader(filePath);
             JSONArray usuArray = new JSONArray(new JSONTokener(reader));
     
             boolean usuariEliminat = false;
@@ -1394,12 +1398,14 @@ public class Main {
             // Si no se encuentra el usuario con el ID proporcionado
             if (!usuariEliminat) {
                 System.out.println("No s'ha trobat l'id demanat\n");
+            } else {
+                // Escribir el nuevo array al archivo JSON
+                FileWriter writer = new FileWriter(filePath);
+                writer.write(newUsuArray.toString(4));  // Escribir el JSON con formato de 4 espacios
+                writer.close();
+                System.out.println("Usuari eliminat correctament!");
             }
-            // Eliminar dels usuaris
-            FileWriter writer = new FileWriter("filePathUsuaris");
-            writer.write(usuArray.toString(4));
-            writer.close();
-
+    
         } catch (IOException | JSONException e) {
             System.out.println("S'ha produït un error: " + e.getMessage());
             e.printStackTrace();
