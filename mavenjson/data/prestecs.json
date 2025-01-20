@@ -44,10 +44,10 @@
     },
     {
         "id_Prestec": "PRESTEC6",
-        "data_Devolucio": "2025-06-04",
-        "id_User": "33333333G",
-        "id_Llibre": ["ISB444"],
-        "actiu": true,
-        "data_Prestec": "2025-05-04"
+        "data_Devolucio": "2025-12-11",
+        "id_User": "48123200L",
+        "id_Llibre": ["ISB110"],
+        "actiu": false,
+        "data_Prestec": "2025-12-10"
     }
 ]
