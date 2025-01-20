@@ -1,6 +1,23 @@
+<<<<<<< HEAD
 [{
     "telefon": "623120198",
     "id": "12345123A",
     "nom": "juan",
     "cognom": "Garcia"
 }]
+=======
+[
+    {
+        "telefon": "623120198",
+        "id": "12345123A",
+        "nom": "Asier",
+        "cognom": "Garcia"
+    },
+    {
+        "telefon": "622312312",
+        "id": "48091233I",
+        "nom": "Asier",
+        "cognom": "Dorado"
+    }
+]
+>>>>>>> 80da2e910324b7679aa9c34adb912197b92c3790
