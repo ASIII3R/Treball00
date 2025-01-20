@@ -160,11 +160,16 @@ public class Main {
 
     public static void modificarUsuaris(Scanner scanner) {
         try {
+            String filePath = filePathUsuaris;
+            
             System.out.println("Inserta l'id de l'usuari que vulguis modificar");
             // Es crea una variable per poder comparar i es llegeix usuaris.json
             String idBuscar = scanner.nextLine();
-            String contenido = new String(Files.readAllBytes(Paths.get("filePathUsuaris")));
+            
+            // Aquí se debe usar la variable 'filePathUsuaris', no la cadena literal
+            String contenido = new String(Files.readAllBytes(Paths.get(filePath))); 
             JSONArray usuarisArray = new JSONArray(contenido);
+            
             boolean trobat = false;
 
             // Buscar l'usuari per la seva ID
@@ -725,7 +730,8 @@ public class Main {
     public static void modificarPrestec(Scanner scanner) {
         // Usar la ruta definida en la variable estática filePathPrestecs
         try {
-            System.out.println("Inserta l'id del préstec que vulguis modificar");
+            System.out.println("\n ------- MODIFICAR PRÉSTEC ------- ");
+            System.out.println("\nInserta l'id del préstec que vulguis modificar");
             String idBuscar = scanner.nextLine().toLowerCase();
             String contenido = new String(Files.readAllBytes(Paths.get(filePathPrestecs))); // Usar la ruta de la
                                                                                             // variable estática
@@ -1365,37 +1371,47 @@ public class Main {
     }
 
     public static void eliminarUsuari(Scanner scanner) {
-        // Llegir el arxiu json
+        // Leer el archivo JSON
         try {
-            FileReader reader = new FileReader("filePathUsuaris");
+            // Usamos la ruta de archivo 'filePathUsuaris' en lugar de la cadena literal
+            String filePath = filePathUsuaris;
+            FileReader reader = new FileReader(filePath);
             JSONArray usuArray = new JSONArray(new JSONTokener(reader));
-
-            Boolean usuariEliminat = false;
+    
+            boolean usuariEliminat = false;
             System.out.print("Introdueix el ID de l'usuari a eliminar: ");
             String idEliminar = scanner.nextLine();
-            // Verificar si es troba entre els usuaris
+    
+            // Crear un nuevo JSONArray para almacenar los usuarios que no han sido eliminados
+            JSONArray newUsuArray = new JSONArray();
+    
+            // Verificar si se encuentra el usuario y agregar a newUsuArray solo los usuarios que no son el eliminado
             for (int i = 0; i < usuArray.length(); i++) {
                 JSONObject usuari = usuArray.getJSONObject(i);
-                if (usuari.getString("id").equals(idEliminar)) {
-                    usuArray.remove(i);
-                    usuariEliminat = true;
-                    break;
+                if (!usuari.getString("id").equals(idEliminar)) {
+                    newUsuArray.put(usuari); // Añadir usuario a la nueva lista si no es el eliminado
+                } else {
+                    usuariEliminat = true; // Si encontramos el usuario, se marca como eliminado
                 }
             }
-            // Si no es troba l'ID dins dels usuaris
+    
+            // Si no se encuentra el usuario con el ID proporcionado
             if (!usuariEliminat) {
                 System.out.println("No s'ha trobat l'id demanat\n");
+            } else {
+                // Escribir el nuevo array al archivo JSON
+                FileWriter writer = new FileWriter(filePath);
+                writer.write(newUsuArray.toString(4));  // Escribir el JSON con formato de 4 espacios
+                writer.close();
+                System.out.println("Usuari eliminat correctament!");
             }
-            // Eliminar dels usuaris
-            FileWriter writer = new FileWriter("filePathUsuaris");
-            writer.write(usuArray.toString(4));
-            writer.close();
-
+    
         } catch (IOException | JSONException e) {
             System.out.println("S'ha produït un error: " + e.getMessage());
             e.printStackTrace();
         }
     }
+    
 
     // Listar todos los libros
     public static void llistarTotsLlibres() {
