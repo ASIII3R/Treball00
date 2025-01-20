@@ -163,7 +163,7 @@ public class Main {
             System.out.println("Inserta l'id de l'usuari que vulguis modificar");
             // Es crea una variable per poder comparar i es llegeix usuaris.json
             String idBuscar = scanner.nextLine();
-            String contenido = new String(Files.readAllBytes(Paths.get("filePathUsuaris")));
+            String contenido = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
             JSONArray usuarisArray = new JSONArray(contenido);
             boolean trobat = false;
 
@@ -183,7 +183,7 @@ public class Main {
                             System.out.print("Inserta el nou telèfon: ");
                             String nouTelefon = scanner.nextLine();
                             usuari.put("telefon", nouTelefon);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "nom":
@@ -191,7 +191,7 @@ public class Main {
                             System.out.print("Inserta el nou nom: ");
                             String nouNom = scanner.nextLine();
                             usuari.put("nom", nouNom);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "cognom":
@@ -199,7 +199,7 @@ public class Main {
                             System.out.print("Inserta el nou cognom: ");
                             String nouCognom = scanner.nextLine();
                             usuari.put("cognom", nouCognom);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                         case "id":
@@ -207,7 +207,7 @@ public class Main {
                             System.out.print("Inserta el nou id: ");
                             String nouId = scanner.nextLine();
                             usuari.put("id", nouId);
-                            Files.write(Paths.get("filePathUsuaris"),
+                            Files.write(Paths.get(filePathUsuaris),
                                     usuarisArray.toString(4).getBytes());
                             break;
                     }
@@ -1367,7 +1367,7 @@ public class Main {
     public static void eliminarUsuari(Scanner scanner) {
         // Llegir el arxiu json
         try {
-            FileReader reader = new FileReader("filePathUsuaris");
+            FileReader reader = new FileReader(filePathUsuaris);
             JSONArray usuArray = new JSONArray(new JSONTokener(reader));
 
             Boolean usuariEliminat = false;
@@ -1387,7 +1387,7 @@ public class Main {
                 System.out.println("No s'ha trobat l'id demanat\n");
             }
             // Eliminar dels usuaris
-            FileWriter writer = new FileWriter("filePathUsuaris");
+            FileWriter writer = new FileWriter(filePathUsuaris);
             writer.write(usuArray.toString(4));
             writer.close();
 
